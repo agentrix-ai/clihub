@@ -2,15 +2,15 @@
 name: cli-hub
 description: >-
   Unified CLI gateway to search, install, authenticate, and invoke enterprise
-  platform tools (WeCom, DingTalk, Lark/Feishu) covering 79+ operations.
-  Use when the user mentions 企业微信/WeCom, 钉钉/DingTalk, 飞书/Lark/Feishu,
-  or needs to send messages, manage calendars, todos, contacts, documents,
-  meetings, approvals, or attendance across these platforms.
+  and AI platform tools (WeCom, DingTalk, Lark/Feishu, Dreamina/即梦) covering
+  91+ operations. Use when the user mentions 企业微信/WeCom, 钉钉/DingTalk,
+  飞书/Lark/Feishu, 即梦/Dreamina, or needs to send messages, manage calendars,
+  todos, contacts, documents, meetings, generate images/videos, or AI creation.
 ---
 
 # cli-hub — 企业 CLI 统一网关
 
-一个 Skill 搜索和调用所有企业平台工具（企业微信 / 钉钉 / 飞书），覆盖 79+ 工具。
+一个 Skill 搜索和调用所有企业平台和 AI 创作工具（企业微信 / 钉钉 / 飞书 / 即梦），覆盖 91+ 工具。
 
 ## 安装
 
@@ -55,6 +55,7 @@ cli-hub doctor
 cli-hub install wecom              # 企业微信
 cli-hub install dingtalk           # 钉钉
 cli-hub install lark               # 飞书
+cli-hub install dreamina           # 即梦 AI
 cli-hub install --all              # 全部
 cli-hub install lark --timeout 300 # 网络慢时加大超时（默认 180s）
 ```
@@ -65,6 +66,7 @@ cli-hub install lark --timeout 300 # 网络慢时加大超时（默认 180s）
 cli-hub auth wecom
 cli-hub auth dingtalk
 cli-hub auth lark
+cli-hub auth dreamina              # 即梦（终端扫码登录）
 cli-hub auth --status              # 查看所有认证状态
 ```
 
@@ -99,6 +101,7 @@ cli-hub run wecom.msg.send_message --args '{"chat_type":1,"chatid":"user1","msgt
 ```bash
 cli-hub run lark.im.messages_send --chat-id oc_xxx --text "Hello"
 cli-hub run dingtalk.todo.task_create --title "写周报" --executors userId
+cli-hub run dreamina.generate.text2image --prompt "a cat portrait" --ratio 1:1
 ```
 
 **如何判断用哪种？** `cli-hub info <id>` 的 Example 字段会显示底层 CLI 的参数风格。
@@ -146,9 +149,12 @@ cli-hub run dingtalk.todo.task_create --title "写周报" --executors userId
 | 企业微信 | wecom | 28 | 通讯录、待办、会议、消息、日程、文档、智能表格 |
 | 钉钉 | dingtalk | 23 | 通讯录、群聊、日历、待办、审批、考勤、日志、智能表格 |
 | 飞书 | lark | 28 | 日历、消息、文档、云盘、多维表格、电子表格、任务、Wiki、邮件、会议 |
+| 即梦 | dreamina | 12 | 文生图、文生视频、图生图、图生视频、多模态视频、图片超分、Seedance 2.0 |
 
 ## 注意
 
 - 认证是交互式的，Agent 应提示用户手动完成浏览器授权
+- 即梦 Agent 登录推荐 `dreamina login --headless`（终端扫码），生成操作消耗积分需提前告知用户
+- 即梦生成任务是异步的：提交后用 `query_result --submit_id=<id>` 查询结果
 - 搜索结果按相关性排序，优先使用得分最高的工具
 - 逐个调用工具并确认结果，不要批量调用

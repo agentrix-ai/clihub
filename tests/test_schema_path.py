@@ -31,8 +31,13 @@ def test_lark_schema_exists():
     assert path.exists(), f"lark.json not found at {path}"
 
 
+def test_dreamina_schema_exists():
+    path = _SCHEMAS_DIR / "dreamina.json"
+    assert path.exists(), f"dreamina.json not found at {path}"
+
+
 def test_schema_files_valid_json():
-    for name in ["wecom.json", "dingtalk.json", "lark.json"]:
+    for name in ["wecom.json", "dingtalk.json", "lark.json", "dreamina.json"]:
         path = _SCHEMAS_DIR / name
         data = json.loads(path.read_text(encoding="utf-8"))
         assert "operations" in data, f"{name} missing 'operations' key"
@@ -41,7 +46,7 @@ def test_schema_files_valid_json():
 
 def test_schema_operations_have_required_fields():
     required_fields = {"category", "name", "description"}
-    for name in ["wecom.json", "dingtalk.json", "lark.json"]:
+    for name in ["wecom.json", "dingtalk.json", "lark.json", "dreamina.json"]:
         path = _SCHEMAS_DIR / name
         data = json.loads(path.read_text(encoding="utf-8"))
         for i, op in enumerate(data["operations"]):
@@ -57,6 +62,7 @@ def test_registry_loads_all_providers():
     assert "wecom" in providers_found
     assert "dingtalk" in providers_found
     assert "lark" in providers_found
+    assert "dreamina" in providers_found
 
 
 def test_registry_operation_count():
@@ -70,8 +76,15 @@ def test_registry_operation_count():
     assert lark_count >= 20, f"Expected ≥20 lark ops, got {lark_count}"
 
 
+def test_dreamina_operation_count():
+    reg = Registry()
+    reg.load()
+    dreamina_count = len(reg.list_operations(provider="dreamina"))
+    assert dreamina_count >= 10, f"Expected ≥10 dreamina ops, got {dreamina_count}"
+
+
 def test_registry_total_count():
     reg = Registry()
     reg.load()
     total = len(reg.operations)
-    assert total >= 70, f"Expected ≥70 total ops, got {total}"
+    assert total >= 85, f"Expected ≥85 total ops, got {total}"

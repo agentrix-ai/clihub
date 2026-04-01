@@ -45,6 +45,17 @@ BUILTIN_PROVIDERS: dict[str, Provider] = {
         homepage="https://github.com/larksuite/cli",
         description="飞书 CLI — 日历、消息、文档、云盘、多维表格、电子表格、任务、Wiki、邮件、会议",
     ),
+    "dreamina": Provider(
+        name="dreamina",
+        display_name="Dreamina (即梦)",
+        cli_binary="dreamina",
+        install_command="curl -s https://jimeng.jianying.com/cli | bash",
+        auth_commands=["dreamina login --headless"],
+        status_command="dreamina user_credit",
+        schema_command="",
+        homepage="https://jimeng.jianying.com",
+        description="即梦 CLI — AI 文生图、文生视频、图生视频、多模态视频、图片超分、Seedance 2.0",
+    ),
 }
 
 

@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "agent-cli-hub"
-version = "0.1.1"
+version = "0.2.0"
 description = "Unified CLI gateway for enterprise platforms — one Skill to search, install, auth and invoke WeCom / DingTalk / Lark CLIs"
 readme = "README.md"
 license = { text = "MIT" }
