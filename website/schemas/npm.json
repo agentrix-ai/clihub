@@ -12,7 +12,7 @@
       "input_schema": {
         "type": "object",
         "properties": {
-          "package": {"type": "string", "description": "包名，如 express 或 express@4.18"},
+          "_package": {"type": "string", "description": "包名（位置参数），如 express 或 express@4.18"},
           "global": {"type": "boolean", "description": "全局安装 (-g)"},
           "save-dev": {"type": "boolean", "description": "作为开发依赖 (--save-dev)"}
         }
@@ -29,10 +29,10 @@
       "input_schema": {
         "type": "object",
         "properties": {
-          "package": {"type": "string", "description": "包名"},
+          "_package": {"type": "string", "description": "包名（位置参数）"},
           "global": {"type": "boolean", "description": "全局卸载 (-g)"}
         },
-        "required": ["package"]
+        "required": ["_package"]
       },
       "example": "npm uninstall lodash"
     },
@@ -46,7 +46,7 @@
       "input_schema": {
         "type": "object",
         "properties": {
-          "package": {"type": "string", "description": "包名（不填则更新全部）"},
+          "_package": {"type": "string", "description": "包名（位置参数，不填则更新全部）"},
           "global": {"type": "boolean", "description": "更新全局包"}
         }
       },
@@ -62,10 +62,10 @@
       "input_schema": {
         "type": "object",
         "properties": {
-          "query": {"type": "string", "description": "搜索关键词"},
+          "_query": {"type": "string", "description": "搜索关键词（位置参数）"},
           "long": {"type": "boolean", "description": "显示详细信息"}
         },
-        "required": ["query"]
+        "required": ["_query"]
       },
       "example": "npm search react --long"
     },
@@ -79,10 +79,10 @@
       "input_schema": {
         "type": "object",
         "properties": {
-          "package": {"type": "string", "description": "包名"},
-          "field": {"type": "string", "description": "指定字段，如 versions, dependencies, description"}
+          "_package": {"type": "string", "description": "包名（位置参数）"},
+          "_field": {"type": "string", "description": "指定字段（位置参数），如 versions, dependencies, description"}
         },
-        "required": ["package"]
+        "required": ["_package"]
       },
       "example": "npm view react versions"
     },
@@ -145,9 +145,9 @@
       "input_schema": {
         "type": "object",
         "properties": {
-          "script": {"type": "string", "description": "脚本名，如 build, test, dev, start"}
+          "_script": {"type": "string", "description": "脚本名（位置参数），如 build, test, dev, start"}
         },
-        "required": ["script"]
+        "required": ["_script"]
       },
       "example": "npm run build",
       "auth_required": false
@@ -248,10 +248,10 @@
       "input_schema": {
         "type": "object",
         "properties": {
-          "key": {"type": "string", "description": "配置键名，如 registry"},
-          "value": {"type": "string", "description": "配置值"}
+          "_key": {"type": "string", "description": "配置键名（位置参数），如 registry"},
+          "_value": {"type": "string", "description": "配置值（位置参数）"}
         },
-        "required": ["key", "value"]
+        "required": ["_key", "_value"]
       },
       "example": "npm config set registry https://registry.npmmirror.com",
       "auth_required": false

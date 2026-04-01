@@ -30,10 +30,10 @@
       "input_schema": {
         "type": "object",
         "properties": {
-          "repository": {"type": "string", "description": "仓库，如 owner/repo"},
-          "directory": {"type": "string", "description": "本地目录名"}
+          "_repo": {"type": "string", "description": "仓库（位置参数），如 owner/repo"},
+          "_dir": {"type": "string", "description": "本地目录名（位置参数）"}
         },
-        "required": ["repository"]
+        "required": ["_repo"]
       },
       "example": "gh repo clone owner/repo"
     },
@@ -67,7 +67,7 @@
       "input_schema": {
         "type": "object",
         "properties": {
-          "repository": {"type": "string", "description": "仓库，如 owner/repo"},
+          "_repo": {"type": "string", "description": "仓库（位置参数），如 owner/repo"},
           "json": {"type": "string", "description": "JSON 输出字段"}
         }
       },
@@ -121,7 +121,7 @@
       "input_schema": {
         "type": "object",
         "properties": {
-          "number": {"type": "integer", "description": "PR 编号"},
+          "_number": {"type": "integer", "description": "PR 编号（位置参数）"},
           "json": {"type": "string", "description": "JSON 输出字段"}
         }
       },
@@ -137,7 +137,7 @@
       "input_schema": {
         "type": "object",
         "properties": {
-          "number": {"type": "integer", "description": "PR 编号"},
+          "_number": {"type": "integer", "description": "PR 编号（位置参数）"},
           "squash": {"type": "boolean", "description": "Squash 合并"},
           "rebase": {"type": "boolean", "description": "Rebase 合并"},
           "delete-branch": {"type": "boolean", "description": "合并后删除分支"}
@@ -193,7 +193,7 @@
       "input_schema": {
         "type": "object",
         "properties": {
-          "number": {"type": "integer", "description": "Issue 编号"},
+          "_number": {"type": "integer", "description": "Issue 编号（位置参数）"},
           "json": {"type": "string", "description": "JSON 输出字段"}
         }
       },
@@ -244,11 +244,11 @@
       "input_schema": {
         "type": "object",
         "properties": {
-          "filename": {"type": "string", "description": "文件路径"},
+          "_filename": {"type": "string", "description": "文件路径（位置参数）"},
           "desc": {"type": "string", "description": "Gist 描述"},
           "public": {"type": "boolean", "description": "是否公开"}
         },
-        "required": ["filename"]
+        "required": ["_filename"]
       },
       "example": "gh gist create script.py --desc 'Useful script' --public"
     },
@@ -311,11 +311,11 @@
       "input_schema": {
         "type": "object",
         "properties": {
-          "endpoint": {"type": "string", "description": "API 端点，如 repos/owner/repo/issues"},
+          "_endpoint": {"type": "string", "description": "API 端点（位置参数），如 repos/owner/repo/issues"},
           "method": {"type": "string", "description": "HTTP 方法: GET, POST, PUT, DELETE"},
           "field": {"type": "string", "description": "请求字段 key=value"}
         },
-        "required": ["endpoint"]
+        "required": ["_endpoint"]
       },
       "example": "gh api repos/owner/repo/issues --method GET"
     },
@@ -329,12 +329,12 @@
       "input_schema": {
         "type": "object",
         "properties": {
-          "query": {"type": "string", "description": "搜索关键词"},
+          "_query": {"type": "string", "description": "搜索关键词（位置参数）"},
           "language": {"type": "string", "description": "编程语言"},
           "sort": {"type": "string", "description": "排序: stars, forks, updated"},
           "limit": {"type": "integer", "description": "返回数量"}
         },
-        "required": ["query"]
+        "required": ["_query"]
       },
       "example": "gh search repos 'machine learning' --language python --sort stars --limit 10"
     },
@@ -348,12 +348,12 @@
       "input_schema": {
         "type": "object",
         "properties": {
-          "query": {"type": "string", "description": "搜索关键词"},
+          "_query": {"type": "string", "description": "搜索关键词（位置参数）"},
           "language": {"type": "string", "description": "编程语言"},
           "repo": {"type": "string", "description": "限定仓库 owner/repo"},
           "limit": {"type": "integer", "description": "返回数量"}
         },
-        "required": ["query"]
+        "required": ["_query"]
       },
       "example": "gh search code 'def main' --language python --limit 10"
     }

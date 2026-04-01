@@ -96,15 +96,22 @@ class GenericAdapter(AbstractAdapter):
             if self._invoke_style == InvokeStyle.JSON_ARG:
                 argv.append(shlex.quote(json.dumps(args, ensure_ascii=False)))
             else:
+                positional: list[str] = []
+                flags: list[str] = []
                 for key, value in args.items():
-                    argv.append(f"--{key}")
+                    if key.startswith("_"):
+                        positional.append(shlex.quote(str(value)))
+                        continue
+                    flags.append(f"--{key}")
                     if isinstance(value, (dict, list)):
-                        argv.append(shlex.quote(json.dumps(value, ensure_ascii=False)))
+                        flags.append(shlex.quote(json.dumps(value, ensure_ascii=False)))
                     elif isinstance(value, bool):
                         if not value:
-                            argv.pop()  # remove the --key if false
+                            flags.pop()
                     else:
-                        argv.append(shlex.quote(str(value)))
+                        flags.append(shlex.quote(str(value)))
+                argv.extend(positional)
+                argv.extend(flags)
 
         cmd = " ".join(argv)
         return await self._run_shell(cmd)
