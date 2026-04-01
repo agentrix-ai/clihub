@@ -12,7 +12,16 @@ description: >-
 
 一个 Skill 搜索和调用所有企业平台和 AI 创作工具（企业微信 / 钉钉 / 飞书 / 即梦），覆盖 91+ 工具。
 
-## 安装
+## 安装 cli-hub
+
+**先检查是否已安装：**
+
+```bash
+cli-hub version
+```
+
+- 如果输出版本号 → 已安装，跳过安装步骤，直接进入「标准工作流」。
+- 如果 `command not found` → 未安装，执行下方安装命令。
 
 **推荐（从 PyPI 安装，有包签名验证）：**
 
@@ -31,41 +40,43 @@ uv tool install agent-cli-hub # uv
 curl -sSL https://raw.githubusercontent.com/agentrix-ai/clihub/main/install.sh | bash
 ```
 
-安装后即可直接使用 `cli-hub` 命令。
-
 ## 强制规则
 
 1. **禁止猜命令** — 必须先 `cli-hub search` 找到工具 ID。
 2. **调用前查参数** — 必须先 `cli-hub info <id>` 确认参数 schema。
-3. 出错时查阅下方「错误处理」表，按指引修复。
+3. **安装底层 CLI 只用 `cli-hub install`** — 禁止自行用 pip/npm/brew 安装底层 CLI（如 dreamina、wecom-cli 等）。每个 provider 有专属安装方式，`cli-hub install <provider>` 已内置正确的安装命令。
+4. 出错时查阅下方「错误处理」表，按指引修复。
 
 ## 标准工作流
 
 严格按 Step 1 → 2 → 3 → 4 顺序执行。
 
-### Step 1: 检查环境（首次必做）
+### Step 1: 检查环境（每次必做）
 
 ```bash
 cli-hub doctor
 ```
 
-根据输出判断：
-- `not installed` → 安装对应 CLI
-- `installed` 但未认证 → 执行认证
-- 全部 OK → 跳到 Step 2
+根据输出**逐个判断**，只处理有问题的 provider，已就绪的跳过：
+- `installed ✓ / authenticated ✓` → **已就绪，不需要任何操作**
+- `not installed` → 仅安装该 provider
+- `installed` 但 `not authenticated` → 仅认证该 provider
+- 全部 OK → 直接跳到 Step 2
 
-**安装底层 CLI：**
+**安装底层 CLI（仅安装 doctor 显示 `not installed` 的）：**
 
 ```bash
-cli-hub install wecom              # 企业微信
-cli-hub install dingtalk           # 钉钉
-cli-hub install lark               # 飞书
-cli-hub install dreamina           # 即梦 AI
-cli-hub install --all              # 全部
+cli-hub install wecom              # 企业微信 (npm)
+cli-hub install dingtalk           # 钉钉 (curl script)
+cli-hub install lark               # 飞书 (npm)
+cli-hub install dreamina           # 即梦 AI (curl script)
+cli-hub install --all              # 全部未安装的
 cli-hub install lark --timeout 300 # 网络慢时加大超时（默认 180s）
 ```
 
-**认证（交互式，需用户在浏览器完成授权）：**
+> **重要：不要自行用 pip/npm/brew 安装底层 CLI，统一用 `cli-hub install`。已安装的不要重复安装。**
+
+**认证（仅认证 doctor 显示未认证的，交互式需用户参与）：**
 
 ```bash
 cli-hub auth wecom

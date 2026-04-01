@@ -12,7 +12,16 @@ description: >-
 
 One Skill to search and invoke all enterprise and AI creation tools (WeCom / DingTalk / Lark / Dreamina), covering 91+ tools.
 
-## Installation
+## Install cli-hub
+
+**Check if already installed first:**
+
+```bash
+cli-hub version
+```
+
+- If it prints a version number → already installed, skip to "Standard Workflow".
+- If `command not found` → not installed, run one of the install commands below.
 
 **Recommended (from PyPI, package signatures verified):**
 
@@ -31,41 +40,43 @@ uv tool install agent-cli-hub # uv
 curl -sSL https://raw.githubusercontent.com/agentrix-ai/clihub/main/install.sh | bash
 ```
 
-After installation, `cli-hub` is available as a command.
-
 ## Mandatory Rules
 
 1. **Never guess commands** — Always `cli-hub search` to find the tool ID first.
 2. **Check params before calling** — Always `cli-hub info <id>` to confirm the parameter schema.
-3. On error, consult the "Error Handling" table below.
+3. **Only use `cli-hub install` for underlying CLIs** — Do NOT install underlying CLIs (dreamina, wecom-cli, lark-cli, dws, etc.) via pip/npm/brew yourself. Each provider has a dedicated install method; `cli-hub install <provider>` has the correct command built in.
+4. On error, consult the "Error Handling" table below.
 
 ## Standard Workflow
 
 Follow Steps 1 → 2 → 3 → 4 strictly in order.
 
-### Step 1: Check Environment (required on first use)
+### Step 1: Check Environment (required every time)
 
 ```bash
 cli-hub doctor
 ```
 
-Based on output:
-- `not installed` → install the CLI
-- `installed` but not authenticated → run auth
+Check each provider's status **individually**; only act on those with issues, skip ready ones:
+- `installed ✓ / authenticated ✓` → **Ready, no action needed**
+- `not installed` → install only that provider
+- `installed` but `not authenticated` → authenticate only that provider
 - All OK → skip to Step 2
 
-**Install underlying CLIs:**
+**Install underlying CLIs (only install those shown as `not installed` by doctor):**
 
 ```bash
-cli-hub install wecom              # WeCom
-cli-hub install dingtalk           # DingTalk
-cli-hub install lark               # Lark/Feishu
-cli-hub install dreamina           # Dreamina AI
-cli-hub install --all              # All providers
+cli-hub install wecom              # WeCom (npm)
+cli-hub install dingtalk           # DingTalk (curl script)
+cli-hub install lark               # Lark/Feishu (npm)
+cli-hub install dreamina           # Dreamina AI (curl script)
+cli-hub install --all              # All not-yet-installed
 cli-hub install lark --timeout 300 # Increase timeout for slow networks
 ```
 
-**Authenticate (interactive, requires browser):**
+> **Important: Do NOT install underlying CLIs via pip/npm/brew yourself. Always use `cli-hub install`. Do NOT re-install already installed ones.**
+
+**Authenticate (only for those shown as unauthenticated; interactive, requires user):**
 
 ```bash
 cli-hub auth wecom
