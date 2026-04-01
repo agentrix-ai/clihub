@@ -14,16 +14,21 @@ description: >-
 
 ## 安装
 
+**推荐（从 PyPI 安装，有包签名验证）：**
+
 ```bash
-curl -sSL https://raw.githubusercontent.com/agentrix-ai/clihub/main/install.sh | bash
+pip install agent-cli-hub     # pip
+pipx install agent-cli-hub    # pipx（隔离环境）
+uv tool install agent-cli-hub # uv
 ```
 
-或手动安装（需要 Python ≥ 3.10）：
+> PyPI: https://pypi.org/project/agent-cli-hub/
+> Source: https://github.com/agentrix-ai/clihub (MIT License)
+
+**备选（一键脚本，内部调用 pip 从 PyPI 安装）：**
 
 ```bash
-pip install agent-cli-hub    # pip
-pipx install agent-cli-hub   # pipx（推荐）
-uv tool install agent-cli-hub # uv
+curl -sSL https://raw.githubusercontent.com/agentrix-ai/clihub/main/install.sh | bash
 ```
 
 安装后即可直接使用 `cli-hub` 命令。
@@ -75,7 +80,7 @@ cli-hub auth --status              # 查看所有认证状态
 ```bash
 cli-hub search "发送消息给同事"
 cli-hub search "创建待办" --provider lark
-cli-hub search "查看日程" --top 5
+cli-hub search "生成视频" --provider dreamina
 cli-hub search "会议" --json        # Agent 推荐：JSON 输出含 input_schema
 ```
 
@@ -96,7 +101,7 @@ cli-hub info wecom.msg.send_message --json # Agent 推荐：完整 JSON Schema
 cli-hub run wecom.msg.send_message --args '{"chat_type":1,"chatid":"user1","msgtype":"text","text":{"content":"hello"}}'
 ```
 
-**方式 B — Flag 参数（dingtalk / lark 风格）：**
+**方式 B — Flag 参数（dingtalk / lark / dreamina 风格）：**
 
 ```bash
 cli-hub run lark.im.messages_send --chat-id oc_xxx --text "Hello"

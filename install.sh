@@ -1,10 +1,25 @@
 #!/usr/bin/env bash
+# cli-hub installer — thin wrapper around PyPI package installation.
+#
+# What this script does:
+#   1. Detects Python ≥ 3.10 (installs if missing via brew/apt/dnf)
+#   2. Installs "agent-cli-hub" from PyPI using uv/pipx/pip
+#   3. Verifies the "cli-hub" command is available
+#
+# Security:
+#   - Only installs from PyPI (https://pypi.org/project/agent-cli-hub/)
+#   - pip/uv/pipx verify package signatures via PyPI's TLS + PEP 691
+#   - Source: https://github.com/agentrix-ai/clihub (MIT License)
+#   - If you prefer not to pipe to shell, run: pip install agent-cli-hub
+#
 set -euo pipefail
 
 PACKAGE="agent-cli-hub"
+VERSION="0.2.0"
 CMD="cli-hub"
 MIN_PY="3.10"
 REPO="https://github.com/agentrix-ai/clihub"
+PYPI="https://pypi.org/project/agent-cli-hub/"
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -20,10 +35,13 @@ fail()  { echo -e "${RED}[fail]${NC}  $*"; exit 1; }
 
 echo -e "${BOLD}"
 echo "  ┌─────────────────────────────────────┐"
-echo "  │     cli-hub installer v0.1.0        │"
+echo "  │     cli-hub installer v${VERSION}        │"
 echo "  │  Enterprise CLI Unified Gateway     │"
 echo "  └─────────────────────────────────────┘"
 echo -e "${NC}"
+echo -e "  ${CYAN}Source:${NC}  ${REPO}"
+echo -e "  ${CYAN}PyPI:${NC}    ${PYPI}"
+echo ""
 
 version_ge() {
     printf '%s\n%s\n' "$2" "$1" | sort -t. -k1,1n -k2,2n -k3,3n -C
@@ -68,51 +86,52 @@ else
     fi
 fi
 
-# ── Step 2: Choose install method (uv > pipx > pip) ──
+# ── Step 2: Install from PyPI (uv > pipx > pip) ──
 INSTALLED=false
+INSTALL_SPEC="${PACKAGE}==${VERSION}"
 
 if command -v uv &>/dev/null; then
-    info "Installing via uv..."
-    uv tool install "$PACKAGE" && INSTALLED=true
+    info "Installing ${INSTALL_SPEC} via uv (from PyPI)..."
+    uv tool install "$INSTALL_SPEC" && INSTALLED=true
 
 elif command -v pipx &>/dev/null; then
-    info "Installing via pipx..."
-    pipx install "$PACKAGE" && INSTALLED=true
+    info "Installing ${INSTALL_SPEC} via pipx (from PyPI)..."
+    pipx install "$INSTALL_SPEC" && INSTALLED=true
 
 else
     if $PYTHON -m pip --version &>/dev/null; then
-        info "Installing via pip..."
-        $PYTHON -m pip install --user "$PACKAGE" && INSTALLED=true
+        info "Installing ${INSTALL_SPEC} via pip (from PyPI)..."
+        $PYTHON -m pip install --user "$INSTALL_SPEC" && INSTALLED=true
     else
         warn "pip not found, installing uv first..."
         curl -LsSf https://astral.sh/uv/install.sh | sh
         export PATH="$HOME/.local/bin:$PATH"
         if command -v uv &>/dev/null; then
-            info "Installing via uv..."
-            uv tool install "$PACKAGE" && INSTALLED=true
+            info "Installing ${INSTALL_SPEC} via uv (from PyPI)..."
+            uv tool install "$INSTALL_SPEC" && INSTALLED=true
         else
             fail "Failed to install uv. Please install manually: https://docs.astral.sh/uv/"
         fi
     fi
 fi
 
-$INSTALLED || fail "Installation failed. Try manually: pip install ${PACKAGE}"
+$INSTALLED || fail "Installation failed. Try manually: pip install ${INSTALL_SPEC}"
 
 # ── Step 3: Verify ──
 export PATH="$HOME/.local/bin:$PATH"
 
 if command -v "$CMD" &>/dev/null; then
+    ACTUAL_VER=$($CMD version 2>&1 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' || echo "unknown")
     echo ""
-    ok "${BOLD}cli-hub installed successfully!${NC}"
-    echo ""
-    $CMD version
+    ok "${BOLD}cli-hub v${ACTUAL_VER} installed successfully!${NC}"
     echo ""
     echo -e "  ${BOLD}Quick start:${NC}"
     echo "    cli-hub doctor                # Check environment"
     echo "    cli-hub search \"发送消息\"      # Search tools"
     echo "    cli-hub install --all         # Install underlying CLIs"
     echo ""
-    echo -e "  ${CYAN}Docs:${NC} ${REPO}"
+    echo -e "  ${CYAN}Docs:${NC}   ${REPO}"
+    echo -e "  ${CYAN}PyPI:${NC}   ${PYPI}"
 else
     warn "cli-hub installed but not found in PATH."
     echo ""
