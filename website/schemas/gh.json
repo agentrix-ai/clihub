@@ -1,0 +1,361 @@
+{
+  "provider": "gh",
+  "version": "1.0.0",
+  "operations": [
+    {
+      "category": "repo",
+      "name": "list",
+      "description": "列出当前用户或指定组织的仓库",
+      "description_en": "List repositories for the authenticated user or an org",
+      "keywords": ["仓库", "列表", "repo", "list", "repository", "github"],
+      "argv_template": ["gh", "repo", "list"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "owner": {"type": "string", "description": "用户名或组织名（可选）"},
+          "limit": {"type": "integer", "description": "返回数量，默认 30"},
+          "language": {"type": "string", "description": "按语言筛选"},
+          "json": {"type": "string", "description": "JSON 输出字段，如 name,url,stargazerCount"}
+        }
+      },
+      "example": "gh repo list --limit 10 --json name,url,stargazerCount"
+    },
+    {
+      "category": "repo",
+      "name": "clone",
+      "description": "克隆 GitHub 仓库到本地",
+      "description_en": "Clone a GitHub repository",
+      "keywords": ["克隆", "clone", "repo", "仓库", "下载"],
+      "argv_template": ["gh", "repo", "clone"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "repository": {"type": "string", "description": "仓库，如 owner/repo"},
+          "directory": {"type": "string", "description": "本地目录名"}
+        },
+        "required": ["repository"]
+      },
+      "example": "gh repo clone owner/repo"
+    },
+    {
+      "category": "repo",
+      "name": "create",
+      "description": "创建新的 GitHub 仓库",
+      "description_en": "Create a new GitHub repository",
+      "keywords": ["创建", "仓库", "repo", "create", "新建"],
+      "argv_template": ["gh", "repo", "create"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "name": {"type": "string", "description": "仓库名"},
+          "public": {"type": "boolean", "description": "是否公开"},
+          "private": {"type": "boolean", "description": "是否私有"},
+          "description": {"type": "string", "description": "仓库描述"},
+          "clone": {"type": "boolean", "description": "创建后克隆到本地"}
+        },
+        "required": ["name"]
+      },
+      "example": "gh repo create my-project --public --description 'My new project' --clone"
+    },
+    {
+      "category": "repo",
+      "name": "view",
+      "description": "查看仓库详情（README、描述、star 数等）",
+      "description_en": "View repository details (README, description, stars)",
+      "keywords": ["仓库", "详情", "查看", "repo", "view"],
+      "argv_template": ["gh", "repo", "view"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "repository": {"type": "string", "description": "仓库，如 owner/repo"},
+          "json": {"type": "string", "description": "JSON 输出字段"}
+        }
+      },
+      "example": "gh repo view owner/repo --json name,description,stargazerCount"
+    },
+    {
+      "category": "pr",
+      "name": "list",
+      "description": "列出 Pull Request",
+      "description_en": "List pull requests in a repository",
+      "keywords": ["PR", "pull request", "列表", "list", "合并请求"],
+      "argv_template": ["gh", "pr", "list"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "state": {"type": "string", "description": "状态: open, closed, merged, all"},
+          "limit": {"type": "integer", "description": "返回数量"},
+          "author": {"type": "string", "description": "按作者筛选"},
+          "json": {"type": "string", "description": "JSON 输出字段"}
+        }
+      },
+      "example": "gh pr list --state open --limit 10"
+    },
+    {
+      "category": "pr",
+      "name": "create",
+      "description": "创建 Pull Request",
+      "description_en": "Create a pull request",
+      "keywords": ["PR", "创建", "pull request", "create", "合并请求"],
+      "argv_template": ["gh", "pr", "create"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "title": {"type": "string", "description": "PR 标题"},
+          "body": {"type": "string", "description": "PR 描述"},
+          "base": {"type": "string", "description": "目标分支"},
+          "head": {"type": "string", "description": "源分支"},
+          "draft": {"type": "boolean", "description": "是否为草稿 PR"}
+        },
+        "required": ["title"]
+      },
+      "example": "gh pr create --title 'Add feature X' --body 'Description' --base main"
+    },
+    {
+      "category": "pr",
+      "name": "view",
+      "description": "查看 Pull Request 详情",
+      "description_en": "View pull request details",
+      "keywords": ["PR", "详情", "查看", "view", "pull request"],
+      "argv_template": ["gh", "pr", "view"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "number": {"type": "integer", "description": "PR 编号"},
+          "json": {"type": "string", "description": "JSON 输出字段"}
+        }
+      },
+      "example": "gh pr view 123 --json title,state,reviews"
+    },
+    {
+      "category": "pr",
+      "name": "merge",
+      "description": "合并 Pull Request",
+      "description_en": "Merge a pull request",
+      "keywords": ["PR", "合并", "merge", "pull request"],
+      "argv_template": ["gh", "pr", "merge"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "number": {"type": "integer", "description": "PR 编号"},
+          "squash": {"type": "boolean", "description": "Squash 合并"},
+          "rebase": {"type": "boolean", "description": "Rebase 合并"},
+          "delete-branch": {"type": "boolean", "description": "合并后删除分支"}
+        }
+      },
+      "example": "gh pr merge 123 --squash --delete-branch"
+    },
+    {
+      "category": "issue",
+      "name": "list",
+      "description": "列出 Issues",
+      "description_en": "List issues in a repository",
+      "keywords": ["issue", "问题", "列表", "list", "bug"],
+      "argv_template": ["gh", "issue", "list"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "state": {"type": "string", "description": "状态: open, closed, all"},
+          "label": {"type": "string", "description": "按标签筛选"},
+          "assignee": {"type": "string", "description": "按分配人筛选"},
+          "limit": {"type": "integer", "description": "返回数量"},
+          "json": {"type": "string", "description": "JSON 输出字段"}
+        }
+      },
+      "example": "gh issue list --state open --label bug --limit 20"
+    },
+    {
+      "category": "issue",
+      "name": "create",
+      "description": "创建 Issue",
+      "description_en": "Create an issue",
+      "keywords": ["issue", "创建", "问题", "create", "新建", "bug"],
+      "argv_template": ["gh", "issue", "create"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "title": {"type": "string", "description": "Issue 标题"},
+          "body": {"type": "string", "description": "Issue 描述"},
+          "label": {"type": "string", "description": "标签，逗号分隔"},
+          "assignee": {"type": "string", "description": "分配人"}
+        },
+        "required": ["title"]
+      },
+      "example": "gh issue create --title 'Bug: login fails' --body 'Steps to reproduce...' --label bug"
+    },
+    {
+      "category": "issue",
+      "name": "view",
+      "description": "查看 Issue 详情",
+      "description_en": "View issue details",
+      "keywords": ["issue", "详情", "查看", "view"],
+      "argv_template": ["gh", "issue", "view"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "number": {"type": "integer", "description": "Issue 编号"},
+          "json": {"type": "string", "description": "JSON 输出字段"}
+        }
+      },
+      "example": "gh issue view 456 --json title,state,body,comments"
+    },
+    {
+      "category": "release",
+      "name": "list",
+      "description": "列出仓库发布版本",
+      "description_en": "List releases in a repository",
+      "keywords": ["发布", "版本", "release", "list"],
+      "argv_template": ["gh", "release", "list"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "limit": {"type": "integer", "description": "返回数量"}
+        }
+      },
+      "example": "gh release list --limit 5"
+    },
+    {
+      "category": "release",
+      "name": "create",
+      "description": "创建新的发布版本",
+      "description_en": "Create a new release",
+      "keywords": ["发布", "创建", "release", "create", "版本"],
+      "argv_template": ["gh", "release", "create"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "tag": {"type": "string", "description": "Tag 名称，如 v1.0.0"},
+          "title": {"type": "string", "description": "发布标题"},
+          "notes": {"type": "string", "description": "发布说明"},
+          "draft": {"type": "boolean", "description": "是否为草稿"},
+          "prerelease": {"type": "boolean", "description": "是否为预发布"}
+        },
+        "required": ["tag"]
+      },
+      "example": "gh release create v1.0.0 --title 'v1.0.0' --notes 'First stable release'"
+    },
+    {
+      "category": "gist",
+      "name": "create",
+      "description": "创建 Gist 代码片段",
+      "description_en": "Create a new gist",
+      "keywords": ["gist", "代码片段", "create", "分享"],
+      "argv_template": ["gh", "gist", "create"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "filename": {"type": "string", "description": "文件路径"},
+          "desc": {"type": "string", "description": "Gist 描述"},
+          "public": {"type": "boolean", "description": "是否公开"}
+        },
+        "required": ["filename"]
+      },
+      "example": "gh gist create script.py --desc 'Useful script' --public"
+    },
+    {
+      "category": "gist",
+      "name": "list",
+      "description": "列出 Gist 代码片段",
+      "description_en": "List gists",
+      "keywords": ["gist", "列表", "list", "代码片段"],
+      "argv_template": ["gh", "gist", "list"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "limit": {"type": "integer", "description": "返回数量"},
+          "public": {"type": "boolean", "description": "仅公开"}
+        }
+      },
+      "example": "gh gist list --limit 10"
+    },
+    {
+      "category": "run",
+      "name": "list",
+      "description": "列出 GitHub Actions 工作流运行记录",
+      "description_en": "List recent workflow runs",
+      "keywords": ["actions", "工作流", "CI", "CD", "run", "list"],
+      "argv_template": ["gh", "run", "list"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "limit": {"type": "integer", "description": "返回数量"},
+          "status": {"type": "string", "description": "状态: queued, in_progress, completed"},
+          "workflow": {"type": "string", "description": "工作流文件名"}
+        }
+      },
+      "example": "gh run list --limit 5 --status completed"
+    },
+    {
+      "category": "run",
+      "name": "view",
+      "description": "查看 Actions 工作流运行详情",
+      "description_en": "View workflow run details",
+      "keywords": ["actions", "运行", "详情", "view", "CI"],
+      "argv_template": ["gh", "run", "view"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "run_id": {"type": "string", "description": "运行 ID"},
+          "log": {"type": "boolean", "description": "显示日志"}
+        }
+      },
+      "example": "gh run view 12345 --log"
+    },
+    {
+      "category": "api",
+      "name": "call",
+      "description": "直接调用 GitHub REST/GraphQL API",
+      "description_en": "Make an authenticated GitHub API request",
+      "keywords": ["api", "接口", "REST", "GraphQL", "调用"],
+      "argv_template": ["gh", "api"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "endpoint": {"type": "string", "description": "API 端点，如 repos/owner/repo/issues"},
+          "method": {"type": "string", "description": "HTTP 方法: GET, POST, PUT, DELETE"},
+          "field": {"type": "string", "description": "请求字段 key=value"}
+        },
+        "required": ["endpoint"]
+      },
+      "example": "gh api repos/owner/repo/issues --method GET"
+    },
+    {
+      "category": "search",
+      "name": "repos",
+      "description": "在 GitHub 上搜索仓库",
+      "description_en": "Search GitHub repositories",
+      "keywords": ["搜索", "仓库", "search", "repos", "github"],
+      "argv_template": ["gh", "search", "repos"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "query": {"type": "string", "description": "搜索关键词"},
+          "language": {"type": "string", "description": "编程语言"},
+          "sort": {"type": "string", "description": "排序: stars, forks, updated"},
+          "limit": {"type": "integer", "description": "返回数量"}
+        },
+        "required": ["query"]
+      },
+      "example": "gh search repos 'machine learning' --language python --sort stars --limit 10"
+    },
+    {
+      "category": "search",
+      "name": "code",
+      "description": "在 GitHub 上搜索代码",
+      "description_en": "Search code on GitHub",
+      "keywords": ["搜索", "代码", "search", "code", "github"],
+      "argv_template": ["gh", "search", "code"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "query": {"type": "string", "description": "搜索关键词"},
+          "language": {"type": "string", "description": "编程语言"},
+          "repo": {"type": "string", "description": "限定仓库 owner/repo"},
+          "limit": {"type": "integer", "description": "返回数量"}
+        },
+        "required": ["query"]
+      },
+      "example": "gh search code 'def main' --language python --limit 10"
+    }
+  ]
+}

@@ -170,7 +170,7 @@ def test_doctor_shows_all_providers():
 def test_refresh_loads_static():
     result = runner.invoke(app, ["refresh"])
     assert result.exit_code == 0
-    assert "operations from static schemas" in result.output
+    assert "operations from" in result.output and "schemas" in result.output
     assert "Total:" in result.output
 
 

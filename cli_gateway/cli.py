@@ -426,14 +426,21 @@ def doctor():
 @app.command()
 def refresh(
     provider_name: Optional[str] = typer.Argument(None, help="Provider to refresh schema for"),
+    remote: bool = typer.Option(True, "--remote/--no-remote", help="Pull latest schemas from clihub.cc (default: on)"),
 ):
-    """Refresh tool schemas — reload static JSON + extract dynamic schemas from installed CLIs."""
+    """Refresh tool schemas — pull from remote registry + reload local + extract dynamic schemas."""
+    from pathlib import Path
+    from cli_gateway.core.registry import REMOTE_REGISTRY_URL, _LOCAL_CACHE_DIR
+
+    if remote:
+        _pull_remote_schemas(REMOTE_REGISTRY_URL, _LOCAL_CACHE_DIR, provider_name)
+
     dispatcher = _get_dispatcher()
     registry = get_registry()
 
     registry.load()
     static_count = len(registry.operations)
-    console.print(f"[green]Loaded {static_count} operations from static schemas.[/]")
+    console.print(f"[green]Loaded {static_count} operations from schemas.[/]")
 
     async def _do():
         targets = [provider_name] if provider_name else list(registry.providers.keys())
@@ -454,6 +461,34 @@ def refresh(
         console.print(f"\n[green]Total: {len(registry.operations)} operations[/]")
 
     _run(_do())
+
+
+def _pull_remote_schemas(url: str, cache_dir: Path, provider_name: str | None = None):
+    """Pull schemas from remote registry and save to local cache."""
+    import httpx
+    from rich.progress import Progress, SpinnerColumn, TextColumn
+
+    with Progress(SpinnerColumn(), TextColumn("[bold blue]{task.description}"), console=console) as progress:
+        task = progress.add_task("Pulling schemas from clihub.cc...", total=None)
+        try:
+            with httpx.Client(timeout=15) as client:
+                if provider_name:
+                    resp = client.get(f"{url}/{provider_name}")
+                    resp.raise_for_status()
+                    schemas = {provider_name: resp.json()}
+                else:
+                    resp = client.get(url)
+                    resp.raise_for_status()
+                    schemas = resp.json()
+
+            cache_dir.mkdir(parents=True, exist_ok=True)
+            for name, data in schemas.items():
+                path = cache_dir / f"{name}.json"
+                path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+
+            progress.update(task, description=f"[green]Pulled {len(schemas)} schema(s) from remote registry.[/]")
+        except Exception as e:
+            progress.update(task, description=f"[yellow]Remote pull failed ({e}), using local schemas.[/]")
 
 
 # ── add ──────────────────────────────────────────────────

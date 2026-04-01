@@ -1,0 +1,172 @@
+{
+  "provider": "react-native",
+  "version": "1.0.0",
+  "operations": [
+    {
+      "category": "project",
+      "name": "init",
+      "description": "创建新的 React Native 项目",
+      "description_en": "Create a new React Native project",
+      "keywords": ["创建", "项目", "init", "react native", "新建", "RN"],
+      "argv_template": ["npx", "@react-native-community/cli@latest", "init"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "name": {"type": "string", "description": "项目名称"},
+          "template": {"type": "string", "description": "模板名称"},
+          "skip-install": {"type": "boolean", "description": "跳过依赖安装"}
+        },
+        "required": ["name"]
+      },
+      "example": "npx @react-native-community/cli@latest init MyApp",
+      "auth_required": false
+    },
+    {
+      "category": "dev",
+      "name": "start",
+      "description": "启动 Metro 开发服务器",
+      "description_en": "Start the Metro bundler dev server",
+      "keywords": ["启动", "开发", "start", "metro", "server", "开发服务器"],
+      "argv_template": ["npx", "react-native", "start"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "port": {"type": "integer", "description": "端口号，默认 8081"},
+          "reset-cache": {"type": "boolean", "description": "清除缓存"}
+        }
+      },
+      "example": "npx react-native start --reset-cache",
+      "auth_required": false
+    },
+    {
+      "category": "dev",
+      "name": "run_android",
+      "description": "在 Android 设备或模拟器上运行应用",
+      "description_en": "Build and run on Android device or emulator",
+      "keywords": ["Android", "运行", "构建", "run", "模拟器", "安卓"],
+      "argv_template": ["npx", "react-native", "run-android"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "device": {"type": "string", "description": "指定设备 ID"},
+          "variant": {"type": "string", "description": "构建变体，如 debug, release"},
+          "port": {"type": "integer", "description": "Metro 端口"}
+        }
+      },
+      "example": "npx react-native run-android",
+      "auth_required": false
+    },
+    {
+      "category": "dev",
+      "name": "run_ios",
+      "description": "在 iOS 设备或模拟器上运行应用（仅 macOS）",
+      "description_en": "Build and run on iOS device or simulator (macOS only)",
+      "keywords": ["iOS", "运行", "构建", "run", "模拟器", "苹果", "iPhone"],
+      "argv_template": ["npx", "react-native", "run-ios"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "device": {"type": "string", "description": "指定设备名称"},
+          "simulator": {"type": "string", "description": "模拟器名称，如 'iPhone 15 Pro'"},
+          "scheme": {"type": "string", "description": "Xcode scheme"},
+          "configuration": {"type": "string", "description": "构建配置: Debug 或 Release"}
+        }
+      },
+      "example": "npx react-native run-ios --simulator 'iPhone 15 Pro'",
+      "auth_required": false
+    },
+    {
+      "category": "build",
+      "name": "build_android",
+      "description": "构建 Android APK/AAB（不运行）",
+      "description_en": "Build Android APK/AAB without running",
+      "keywords": ["构建", "Android", "APK", "AAB", "build", "打包"],
+      "argv_template": ["npx", "react-native", "build-android"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "mode": {"type": "string", "description": "构建模式: debug 或 release"}
+        }
+      },
+      "example": "npx react-native build-android --mode release",
+      "auth_required": false
+    },
+    {
+      "category": "build",
+      "name": "build_ios",
+      "description": "构建 iOS 应用（不运行，仅 macOS）",
+      "description_en": "Build iOS app without running (macOS only)",
+      "keywords": ["构建", "iOS", "build", "打包", "苹果"],
+      "argv_template": ["npx", "react-native", "build-ios"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "mode": {"type": "string", "description": "构建模式: Debug 或 Release"},
+          "scheme": {"type": "string", "description": "Xcode scheme"}
+        }
+      },
+      "example": "npx react-native build-ios --mode Release",
+      "auth_required": false
+    },
+    {
+      "category": "tools",
+      "name": "doctor",
+      "description": "检查 React Native 开发环境配置",
+      "description_en": "Check development environment for common issues",
+      "keywords": ["诊断", "检查", "doctor", "环境", "配置"],
+      "argv_template": ["npx", "react-native", "doctor"],
+      "example": "npx react-native doctor",
+      "auth_required": false
+    },
+    {
+      "category": "tools",
+      "name": "clean",
+      "description": "清理项目构建缓存和临时文件",
+      "description_en": "Clean project build caches and temporary files",
+      "keywords": ["清理", "缓存", "clean", "清除"],
+      "argv_template": ["npx", "react-native", "clean"],
+      "example": "npx react-native clean",
+      "auth_required": false
+    },
+    {
+      "category": "tools",
+      "name": "info",
+      "description": "获取当前 React Native 环境信息（用于 bug 报告）",
+      "description_en": "Get environment info for bug reports",
+      "keywords": ["信息", "环境", "info", "版本", "诊断"],
+      "argv_template": ["npx", "react-native", "info"],
+      "example": "npx react-native info",
+      "auth_required": false
+    },
+    {
+      "category": "tools",
+      "name": "log_android",
+      "description": "查看 Android 设备日志",
+      "description_en": "Show Android device logs",
+      "keywords": ["日志", "Android", "log", "调试", "debug"],
+      "argv_template": ["npx", "react-native", "log-android"],
+      "example": "npx react-native log-android",
+      "auth_required": false
+    },
+    {
+      "category": "tools",
+      "name": "log_ios",
+      "description": "查看 iOS 模拟器日志",
+      "description_en": "Show iOS simulator logs",
+      "keywords": ["日志", "iOS", "log", "调试", "debug"],
+      "argv_template": ["npx", "react-native", "log-ios"],
+      "example": "npx react-native log-ios",
+      "auth_required": false
+    },
+    {
+      "category": "assets",
+      "name": "link_assets",
+      "description": "链接原生资源文件（字体等）",
+      "description_en": "Link native assets (fonts, etc.)",
+      "keywords": ["资源", "链接", "字体", "assets", "link", "font"],
+      "argv_template": ["npx", "react-native", "link-assets"],
+      "example": "npx react-native link-assets",
+      "auth_required": false
+    }
+  ]
+}

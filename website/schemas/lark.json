@@ -1,0 +1,259 @@
+{
+  "provider": "lark",
+  "version": "1.0.0",
+  "operations": [
+    {
+      "category": "calendar",
+      "name": "agenda",
+      "description": "查看日历日程列表",
+      "description_en": "View calendar agenda",
+      "keywords": ["日历", "日程", "议程", "calendar", "agenda", "schedule"],
+      "argv_template": ["lark-cli", "calendar", "+agenda"],
+      "example": "lark-cli calendar +agenda"
+    },
+    {
+      "category": "calendar",
+      "name": "event_create",
+      "description": "创建日历日程事件",
+      "description_en": "Create a calendar event",
+      "keywords": ["创建", "日程", "日历", "event", "create", "calendar"],
+      "argv_template": ["lark-cli", "calendar", "+event-create"],
+      "example": "lark-cli calendar +event-create --summary \"需求评审\" --start \"2026-04-02 14:00\" --end \"2026-04-02 15:00\""
+    },
+    {
+      "category": "calendar",
+      "name": "free_busy",
+      "description": "查询多人闲忙状态",
+      "description_en": "Check free/busy status",
+      "keywords": ["闲忙", "空闲", "忙碌", "free", "busy", "availability", "calendar"],
+      "argv_template": ["lark-cli", "calendar", "+free-busy"],
+      "example": "lark-cli calendar +free-busy --user-ids user1,user2"
+    },
+    {
+      "category": "im",
+      "name": "messages_send",
+      "description": "发送消息到群聊或单聊",
+      "description_en": "Send a message to chat or user",
+      "keywords": ["发送", "消息", "聊天", "im", "message", "send", "chat"],
+      "argv_template": ["lark-cli", "im", "+messages-send"],
+      "input_schema": {"type": "object", "properties": {"chat-id": {"type": "string"}, "text": {"type": "string"}}, "required": ["chat-id", "text"]},
+      "example": "lark-cli im +messages-send --chat-id \"oc_xxx\" --text \"Hello\""
+    },
+    {
+      "category": "im",
+      "name": "messages_reply",
+      "description": "回复消息",
+      "description_en": "Reply to a message",
+      "keywords": ["回复", "消息", "im", "reply", "message"],
+      "argv_template": ["lark-cli", "im", "+messages-reply"],
+      "example": "lark-cli im +messages-reply --message-id \"msg_xxx\" --text \"收到\""
+    },
+    {
+      "category": "im",
+      "name": "messages_search",
+      "description": "搜索消息",
+      "description_en": "Search messages",
+      "keywords": ["搜索", "消息", "im", "search", "message"],
+      "argv_template": ["lark-cli", "im", "+messages-search"],
+      "example": "lark-cli im +messages-search --query \"项目进展\""
+    },
+    {
+      "category": "im",
+      "name": "chat_create",
+      "description": "创建群聊",
+      "description_en": "Create a group chat",
+      "keywords": ["创建", "群聊", "群", "im", "chat", "group", "create"],
+      "argv_template": ["lark-cli", "im", "+chat-create"],
+      "example": "lark-cli im +chat-create --name \"项目群\""
+    },
+    {
+      "category": "im",
+      "name": "chat_list",
+      "description": "列出群聊列表",
+      "description_en": "List group chats",
+      "keywords": ["群聊", "列表", "im", "chat", "list"],
+      "argv_template": ["lark-cli", "im", "+chat-list"],
+      "example": "lark-cli im +chat-list"
+    },
+    {
+      "category": "docs",
+      "name": "create",
+      "description": "创建飞书文档",
+      "description_en": "Create a Lark document",
+      "keywords": ["创建", "文档", "docs", "document", "create"],
+      "argv_template": ["lark-cli", "docs", "+create"],
+      "example": "lark-cli docs +create --title \"Weekly Report\" --markdown \"# Progress\""
+    },
+    {
+      "category": "docs",
+      "name": "read",
+      "description": "读取文档内容",
+      "description_en": "Read document content",
+      "keywords": ["读取", "文档", "内容", "docs", "read"],
+      "argv_template": ["lark-cli", "docs", "+read"],
+      "example": "lark-cli docs +read --doc-token \"xxx\""
+    },
+    {
+      "category": "docs",
+      "name": "update",
+      "description": "更新文档内容",
+      "description_en": "Update document content",
+      "keywords": ["更新", "编辑", "文档", "docs", "update", "edit"],
+      "argv_template": ["lark-cli", "docs", "+update"],
+      "example": "lark-cli docs +update --doc-token \"xxx\" --markdown \"# Updated\""
+    },
+    {
+      "category": "drive",
+      "name": "upload",
+      "description": "上传文件到云盘",
+      "description_en": "Upload file to drive",
+      "keywords": ["上传", "文件", "云盘", "drive", "upload"],
+      "argv_template": ["lark-cli", "drive", "+upload"],
+      "example": "lark-cli drive +upload --file ./report.pdf"
+    },
+    {
+      "category": "drive",
+      "name": "download",
+      "description": "从云盘下载文件",
+      "description_en": "Download file from drive",
+      "keywords": ["下载", "文件", "云盘", "drive", "download"],
+      "argv_template": ["lark-cli", "drive", "+download"],
+      "example": "lark-cli drive +download --file-token \"xxx\" --output ./file.pdf"
+    },
+    {
+      "category": "drive",
+      "name": "search",
+      "description": "搜索云盘文件和Wiki",
+      "description_en": "Search files and wiki in drive",
+      "keywords": ["搜索", "文件", "wiki", "drive", "search"],
+      "argv_template": ["lark-cli", "drive", "+search"],
+      "example": "lark-cli drive +search --query \"项目方案\""
+    },
+    {
+      "category": "base",
+      "name": "record_list",
+      "description": "查询多维表格记录",
+      "description_en": "List base records",
+      "keywords": ["多维表格", "记录", "base", "record", "query", "list"],
+      "argv_template": ["lark-cli", "base", "+record-list"],
+      "example": "lark-cli base +record-list --app-token APP_TOKEN --table-id TABLE_ID"
+    },
+    {
+      "category": "base",
+      "name": "record_create",
+      "description": "添加多维表格记录",
+      "description_en": "Create base records",
+      "keywords": ["添加", "多维表格", "记录", "base", "record", "create"],
+      "argv_template": ["lark-cli", "base", "+record-create"],
+      "example": "lark-cli base +record-create --app-token APP_TOKEN --table-id TABLE_ID --fields '{\"Name\":\"value\"}'"
+    },
+    {
+      "category": "sheets",
+      "name": "read",
+      "description": "读取电子表格数据",
+      "description_en": "Read spreadsheet data",
+      "keywords": ["电子表格", "读取", "sheets", "spreadsheet", "read"],
+      "argv_template": ["lark-cli", "sheets", "+read"],
+      "example": "lark-cli sheets +read --spreadsheet-token TOKEN --range \"Sheet1!A1:D10\""
+    },
+    {
+      "category": "sheets",
+      "name": "write",
+      "description": "写入电子表格数据",
+      "description_en": "Write spreadsheet data",
+      "keywords": ["电子表格", "写入", "sheets", "spreadsheet", "write"],
+      "argv_template": ["lark-cli", "sheets", "+write"],
+      "example": "lark-cli sheets +write --spreadsheet-token TOKEN --range \"Sheet1!A1\" --values '[[\"a\",\"b\"]]'"
+    },
+    {
+      "category": "task",
+      "name": "create",
+      "description": "创建任务",
+      "description_en": "Create a task",
+      "keywords": ["创建", "任务", "待办", "task", "create", "todo"],
+      "argv_template": ["lark-cli", "task", "+create"],
+      "example": "lark-cli task +create --summary \"写周报\""
+    },
+    {
+      "category": "task",
+      "name": "list",
+      "description": "查询任务列表",
+      "description_en": "List tasks",
+      "keywords": ["任务", "列表", "待办", "task", "list", "todo"],
+      "argv_template": ["lark-cli", "task", "+list"],
+      "example": "lark-cli task +list"
+    },
+    {
+      "category": "task",
+      "name": "complete",
+      "description": "完成任务",
+      "description_en": "Complete a task",
+      "keywords": ["完成", "任务", "task", "complete", "done"],
+      "argv_template": ["lark-cli", "task", "+complete"],
+      "example": "lark-cli task +complete --task-id TASK_ID"
+    },
+    {
+      "category": "contact",
+      "name": "search",
+      "description": "按姓名/邮箱/手机号搜索联系人",
+      "description_en": "Search users by name, email or phone",
+      "keywords": ["搜索", "联系人", "通讯录", "contact", "search", "user"],
+      "argv_template": ["lark-cli", "contact", "+search"],
+      "example": "lark-cli contact +search --query \"张三\""
+    },
+    {
+      "category": "mail",
+      "name": "list",
+      "description": "浏览邮件列表",
+      "description_en": "Browse email list",
+      "keywords": ["邮件", "邮箱", "列表", "mail", "email", "inbox"],
+      "argv_template": ["lark-cli", "mail", "+list"],
+      "example": "lark-cli mail +list"
+    },
+    {
+      "category": "mail",
+      "name": "send",
+      "description": "发送邮件",
+      "description_en": "Send an email",
+      "keywords": ["发送", "邮件", "mail", "email", "send"],
+      "argv_template": ["lark-cli", "mail", "+send"],
+      "example": "lark-cli mail +send --to \"user@example.com\" --subject \"通知\" --body \"内容\""
+    },
+    {
+      "category": "mail",
+      "name": "search",
+      "description": "搜索邮件",
+      "description_en": "Search emails",
+      "keywords": ["搜索", "邮件", "mail", "email", "search"],
+      "argv_template": ["lark-cli", "mail", "+search"],
+      "example": "lark-cli mail +search --query \"项目报告\""
+    },
+    {
+      "category": "wiki",
+      "name": "list",
+      "description": "列出知识库空间和节点",
+      "description_en": "List wiki spaces and nodes",
+      "keywords": ["知识库", "wiki", "文档", "space"],
+      "argv_template": ["lark-cli", "wiki", "+list"],
+      "example": "lark-cli wiki +list"
+    },
+    {
+      "category": "vc",
+      "name": "meeting_list",
+      "description": "查询会议记录列表",
+      "description_en": "Search meeting records",
+      "keywords": ["会议", "视频会议", "记录", "vc", "meeting"],
+      "argv_template": ["lark-cli", "vc", "+meeting-list"],
+      "example": "lark-cli vc +meeting-list"
+    },
+    {
+      "category": "vc",
+      "name": "minutes",
+      "description": "查询会议纪要（摘要、待办、转录）",
+      "description_en": "Get meeting minutes (summary, todos, transcript)",
+      "keywords": ["会议纪要", "摘要", "转录", "minutes", "meeting"],
+      "argv_template": ["lark-cli", "vc", "+minutes"],
+      "example": "lark-cli vc +minutes --meeting-id MEETING_ID"
+    }
+  ]
+}

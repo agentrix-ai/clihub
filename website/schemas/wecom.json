@@ -1,0 +1,266 @@
+{
+  "provider": "wecom",
+  "version": "1.0.0",
+  "operations": [
+    {
+      "category": "contact",
+      "name": "get_userlist",
+      "description": "获取通讯录成员列表（userid、姓名、别名）",
+      "description_en": "Get visible contact member list",
+      "keywords": ["通讯录", "联系人", "成员", "contact", "user"],
+      "argv_template": ["wecom-cli", "contact", "get_userlist"],
+      "example": "wecom-cli contact get_userlist '{}'"
+    },
+    {
+      "category": "todo",
+      "name": "get_todo_list",
+      "description": "查询待办列表，支持按时间过滤和分页",
+      "description_en": "Query todo list with time filter and pagination",
+      "keywords": ["待办", "任务", "todo", "task"],
+      "argv_template": ["wecom-cli", "todo", "get_todo_list"],
+      "example": "wecom-cli todo get_todo_list '{}'"
+    },
+    {
+      "category": "todo",
+      "name": "get_todo_detail",
+      "description": "根据待办 ID 批量查询完整详情",
+      "description_en": "Batch query todo details by IDs",
+      "keywords": ["待办", "详情", "todo", "detail"],
+      "argv_template": ["wecom-cli", "todo", "get_todo_detail"],
+      "input_schema": {"type": "object", "properties": {"todo_id_list": {"type": "array", "items": {"type": "string"}}}, "required": ["todo_id_list"]},
+      "example": "wecom-cli todo get_todo_detail '{\"todo_id_list\":[\"ID1\"]}'"
+    },
+    {
+      "category": "todo",
+      "name": "create_todo",
+      "description": "创建待办，可指定内容、分派人、提醒时间",
+      "description_en": "Create a todo with content, assignee, and reminder",
+      "keywords": ["创建", "待办", "新建", "todo", "create"],
+      "argv_template": ["wecom-cli", "todo", "create_todo"],
+      "input_schema": {"type": "object", "properties": {"content": {"type": "string"}, "remind_time": {"type": "string"}}, "required": ["content"]},
+      "example": "wecom-cli todo create_todo '{\"content\":\"完成周报\"}'"
+    },
+    {
+      "category": "todo",
+      "name": "update_todo",
+      "description": "更新待办内容、状态、分派人或提醒时间",
+      "description_en": "Update todo content, status, assignee or reminder",
+      "keywords": ["更新", "修改", "待办", "todo", "update"],
+      "argv_template": ["wecom-cli", "todo", "update_todo"],
+      "input_schema": {"type": "object", "properties": {"todo_id": {"type": "string"}, "todo_status": {"type": "integer"}}, "required": ["todo_id"]},
+      "example": "wecom-cli todo update_todo '{\"todo_id\":\"ID\",\"todo_status\":0}'"
+    },
+    {
+      "category": "todo",
+      "name": "delete_todo",
+      "description": "删除待办（不可撤销）",
+      "description_en": "Delete a todo (irreversible)",
+      "keywords": ["删除", "待办", "todo", "delete"],
+      "argv_template": ["wecom-cli", "todo", "delete_todo"],
+      "input_schema": {"type": "object", "properties": {"todo_id": {"type": "string"}}, "required": ["todo_id"]},
+      "example": "wecom-cli todo delete_todo '{\"todo_id\":\"ID\"}'"
+    },
+    {
+      "category": "todo",
+      "name": "change_todo_user_status",
+      "description": "变更当前用户在待办中的处理状态",
+      "description_en": "Change current user's status in a todo",
+      "keywords": ["待办", "状态", "todo", "status"],
+      "argv_template": ["wecom-cli", "todo", "change_todo_user_status"],
+      "example": "wecom-cli todo change_todo_user_status '{\"todo_id\":\"ID\"}'"
+    },
+    {
+      "category": "meeting",
+      "name": "create_meeting",
+      "description": "创建预约会议，支持设置参数、邀请参与人",
+      "description_en": "Create a scheduled meeting with participants",
+      "keywords": ["会议", "创建", "预约", "meeting", "create", "视频会议"],
+      "argv_template": ["wecom-cli", "meeting", "create_meeting"],
+      "input_schema": {"type": "object", "properties": {"title": {"type": "string"}, "meeting_start_datetime": {"type": "string"}, "meeting_duration": {"type": "integer"}}, "required": ["title", "meeting_start_datetime", "meeting_duration"]},
+      "example": "wecom-cli meeting create_meeting '{\"title\":\"技术评审\",\"meeting_start_datetime\":\"2026-04-01 15:00\",\"meeting_duration\":3600}'"
+    },
+    {
+      "category": "meeting",
+      "name": "cancel_meeting",
+      "description": "取消指定的预约会议",
+      "description_en": "Cancel a scheduled meeting",
+      "keywords": ["会议", "取消", "meeting", "cancel"],
+      "argv_template": ["wecom-cli", "meeting", "cancel_meeting"],
+      "input_schema": {"type": "object", "properties": {"meetingid": {"type": "string"}}, "required": ["meetingid"]},
+      "example": "wecom-cli meeting cancel_meeting '{\"meetingid\":\"ID\"}'"
+    },
+    {
+      "category": "meeting",
+      "name": "list_user_meetings",
+      "description": "查询用户在时间范围内的会议列表",
+      "description_en": "List user meetings within a time range",
+      "keywords": ["会议", "列表", "查询", "meeting", "list"],
+      "argv_template": ["wecom-cli", "meeting", "list_user_meetings"],
+      "example": "wecom-cli meeting list_user_meetings '{\"begin_datetime\":\"2026-04-01 00:00\",\"end_datetime\":\"2026-04-07 23:59\"}'"
+    },
+    {
+      "category": "meeting",
+      "name": "get_meeting_info",
+      "description": "获取会议完整详情",
+      "description_en": "Get meeting details",
+      "keywords": ["会议", "详情", "meeting", "info"],
+      "argv_template": ["wecom-cli", "meeting", "get_meeting_info"],
+      "example": "wecom-cli meeting get_meeting_info '{\"meetingid\":\"ID\"}'"
+    },
+    {
+      "category": "meeting",
+      "name": "set_invite_meeting_members",
+      "description": "更新会议受邀成员（全量覆盖）",
+      "description_en": "Update meeting invitees (full replace)",
+      "keywords": ["会议", "邀请", "成员", "meeting", "invite"],
+      "argv_template": ["wecom-cli", "meeting", "set_invite_meeting_members"],
+      "example": "wecom-cli meeting set_invite_meeting_members '{\"meetingid\":\"ID\",\"invitees\":{\"userid\":[\"user1\"]}}'"
+    },
+    {
+      "category": "msg",
+      "name": "get_msg_chat_list",
+      "description": "按时间范围查询有消息的会话列表",
+      "description_en": "Get chat list with messages in time range",
+      "keywords": ["消息", "会话", "聊天", "列表", "msg", "chat"],
+      "argv_template": ["wecom-cli", "msg", "get_msg_chat_list"],
+      "example": "wecom-cli msg get_msg_chat_list '{\"begin_time\":\"2026-03-25 00:00:00\",\"end_time\":\"2026-04-01 23:59:59\"}'"
+    },
+    {
+      "category": "msg",
+      "name": "get_message",
+      "description": "拉取会话消息记录（文本/图片/文件/语音/视频）",
+      "description_en": "Pull chat messages (text/image/file/voice/video)",
+      "keywords": ["消息", "聊天记录", "msg", "message", "chat"],
+      "argv_template": ["wecom-cli", "msg", "get_message"],
+      "example": "wecom-cli msg get_message '{\"chat_type\":1,\"chatid\":\"user1\",\"begin_time\":\"2026-04-01 09:00:00\",\"end_time\":\"2026-04-01 18:00:00\"}'"
+    },
+    {
+      "category": "msg",
+      "name": "send_message",
+      "description": "向单聊或群聊发送文本消息",
+      "description_en": "Send text message to a user or group chat",
+      "keywords": ["发送", "消息", "文本", "msg", "send", "message"],
+      "argv_template": ["wecom-cli", "msg", "send_message"],
+      "input_schema": {"type": "object", "properties": {"chat_type": {"type": "integer"}, "chatid": {"type": "string"}, "msgtype": {"type": "string"}, "text": {"type": "object"}}, "required": ["chat_type", "chatid", "msgtype", "text"]},
+      "example": "wecom-cli msg send_message '{\"chat_type\":1,\"chatid\":\"user1\",\"msgtype\":\"text\",\"text\":{\"content\":\"hello\"}}'"
+    },
+    {
+      "category": "msg",
+      "name": "get_msg_media",
+      "description": "下载消息中的多媒体文件到本地",
+      "description_en": "Download media files from messages",
+      "keywords": ["下载", "多媒体", "media", "msg"],
+      "argv_template": ["wecom-cli", "msg", "get_msg_media"],
+      "example": "wecom-cli msg get_msg_media '{\"media_id\":\"MEDIA_ID\"}'"
+    },
+    {
+      "category": "schedule",
+      "name": "get_schedule_list_by_range",
+      "description": "查询时间范围内的日程 ID 列表",
+      "description_en": "Get schedule IDs within a time range",
+      "keywords": ["日程", "日历", "schedule", "calendar", "list"],
+      "argv_template": ["wecom-cli", "schedule", "get_schedule_list_by_range"],
+      "example": "wecom-cli schedule get_schedule_list_by_range '{\"start_time\":\"2026-04-01 00:00:00\",\"end_time\":\"2026-04-01 23:59:59\"}'"
+    },
+    {
+      "category": "schedule",
+      "name": "get_schedule_detail",
+      "description": "批量获取日程详情（1~50个）",
+      "description_en": "Batch get schedule details",
+      "keywords": ["日程", "详情", "schedule", "detail"],
+      "argv_template": ["wecom-cli", "schedule", "get_schedule_detail"],
+      "example": "wecom-cli schedule get_schedule_detail '{\"schedule_id_list\":[\"ID\"]}'"
+    },
+    {
+      "category": "schedule",
+      "name": "create_schedule",
+      "description": "创建日程，支持设置提醒、参与人",
+      "description_en": "Create a schedule with reminders and attendees",
+      "keywords": ["创建", "日程", "日历", "schedule", "create"],
+      "argv_template": ["wecom-cli", "schedule", "create_schedule"],
+      "example": "wecom-cli schedule create_schedule '{\"schedule\":{\"start_time\":\"2026-04-02 14:00:00\",\"end_time\":\"2026-04-02 15:00:00\",\"summary\":\"需求评审\"}}'"
+    },
+    {
+      "category": "schedule",
+      "name": "update_schedule",
+      "description": "修改日程（只传需修改的字段）",
+      "description_en": "Update a schedule (partial update)",
+      "keywords": ["修改", "日程", "schedule", "update"],
+      "argv_template": ["wecom-cli", "schedule", "update_schedule"],
+      "example": "wecom-cli schedule update_schedule '{\"schedule_id\":\"ID\",\"schedule\":{\"summary\":\"新标题\"}}'"
+    },
+    {
+      "category": "schedule",
+      "name": "cancel_schedule",
+      "description": "取消日程",
+      "description_en": "Cancel a schedule",
+      "keywords": ["取消", "日程", "schedule", "cancel"],
+      "argv_template": ["wecom-cli", "schedule", "cancel_schedule"],
+      "example": "wecom-cli schedule cancel_schedule '{\"schedule_id\":\"ID\"}'"
+    },
+    {
+      "category": "schedule",
+      "name": "check_availability",
+      "description": "查询多成员闲忙状态（1~10人）",
+      "description_en": "Check free/busy status for multiple users",
+      "keywords": ["闲忙", "空闲", "忙碌", "availability", "free", "busy"],
+      "argv_template": ["wecom-cli", "schedule", "check_availability"],
+      "example": "wecom-cli schedule check_availability '{\"check_user_list\":[\"user1\",\"user2\"],\"start_time\":\"2026-04-02 09:00:00\",\"end_time\":\"2026-04-02 18:00:00\"}'"
+    },
+    {
+      "category": "doc",
+      "name": "create_doc",
+      "description": "创建文档或智能表格",
+      "description_en": "Create a document or smartsheet",
+      "keywords": ["创建", "文档", "表格", "doc", "create"],
+      "argv_template": ["wecom-cli", "doc", "create_doc"],
+      "input_schema": {"type": "object", "properties": {"doc_type": {"type": "integer"}, "doc_name": {"type": "string"}}, "required": ["doc_type", "doc_name"]},
+      "example": "wecom-cli doc create_doc '{\"doc_type\":3,\"doc_name\":\"项目周报\"}'"
+    },
+    {
+      "category": "doc",
+      "name": "get_doc_content",
+      "description": "获取文档内容（Markdown 格式）",
+      "description_en": "Get document content in Markdown format",
+      "keywords": ["读取", "文档", "内容", "doc", "read", "content"],
+      "argv_template": ["wecom-cli", "doc", "get_doc_content"],
+      "example": "wecom-cli doc get_doc_content '{\"docid\":\"DOC_ID\",\"type\":2}'"
+    },
+    {
+      "category": "doc",
+      "name": "edit_doc_content",
+      "description": "用 Markdown 覆写文档正文",
+      "description_en": "Overwrite document content with Markdown",
+      "keywords": ["编辑", "文档", "doc", "edit", "write"],
+      "argv_template": ["wecom-cli", "doc", "edit_doc_content"],
+      "example": "wecom-cli doc edit_doc_content '{\"docid\":\"DOC_ID\",\"content\":\"# 标题\",\"content_type\":1}'"
+    },
+    {
+      "category": "smartsheet",
+      "name": "smartsheet_get_sheet",
+      "description": "查询智能表格的所有子表",
+      "description_en": "Get all sheets in a smartsheet",
+      "keywords": ["表格", "子表", "smartsheet", "sheet"],
+      "argv_template": ["wecom-cli", "doc", "smartsheet_get_sheet"],
+      "example": "wecom-cli doc smartsheet_get_sheet '{\"docid\":\"DOC_ID\"}'"
+    },
+    {
+      "category": "smartsheet",
+      "name": "smartsheet_get_records",
+      "description": "查询子表全部记录",
+      "description_en": "Get all records in a sheet",
+      "keywords": ["表格", "记录", "数据", "smartsheet", "records"],
+      "argv_template": ["wecom-cli", "doc", "smartsheet_get_records"],
+      "example": "wecom-cli doc smartsheet_get_records '{\"docid\":\"DOC_ID\",\"sheet_id\":\"SHEET_ID\"}'"
+    },
+    {
+      "category": "smartsheet",
+      "name": "smartsheet_add_records",
+      "description": "添加记录到智能表格",
+      "description_en": "Add records to a smartsheet",
+      "keywords": ["添加", "记录", "表格", "smartsheet", "add"],
+      "argv_template": ["wecom-cli", "doc", "smartsheet_add_records"],
+      "example": "wecom-cli doc smartsheet_add_records '{\"docid\":\"DOC_ID\",\"sheet_id\":\"SHEET_ID\",\"records\":[]}'"
+    }
+  ]
+}

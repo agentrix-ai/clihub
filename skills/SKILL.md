@@ -1,16 +1,19 @@
 ---
 name: cli-hub
 description: >-
-  Unified CLI gateway to search, install, authenticate, and invoke enterprise
-  and AI platform tools (WeCom, DingTalk, Lark/Feishu, Dreamina/即梦) covering
-  91+ operations. Use when the user mentions 企业微信/WeCom, 钉钉/DingTalk,
-  飞书/Lark/Feishu, 即梦/Dreamina, or needs to send messages, manage calendars,
-  todos, contacts, documents, meetings, generate images/videos, or AI creation.
+  Unified CLI gateway to search, install, authenticate, and invoke enterprise,
+  developer, and AI platform tools (WeCom, DingTalk, Lark/Feishu, Dreamina/即梦,
+  Google Workspace, GitHub CLI, npm, React Native) covering 150+ operations.
+  Use when the user mentions 企业微信/WeCom, 钉钉/DingTalk, 飞书/Lark/Feishu,
+  即梦/Dreamina, Google Workspace/Gmail/Drive/Sheets, GitHub/gh, npm,
+  React Native, or needs to send messages, manage calendars, todos, contacts,
+  documents, meetings, generate images/videos, manage repos/PRs/issues,
+  manage npm packages, or build mobile apps.
 ---
 
-# cli-hub — 企业 CLI 统一网关
+# cli-hub — 企业 & 开发者 CLI 统一网关
 
-一个 Skill 搜索和调用所有企业平台和 AI 创作工具（企业微信 / 钉钉 / 飞书 / 即梦），覆盖 91+ 工具。
+一个 Skill 搜索和调用所有企业平台、开发者工具和 AI 创作工具，覆盖 150+ 工具。
 
 ## 安装 cli-hub
 
@@ -70,6 +73,10 @@ cli-hub install wecom              # 企业微信 (npm)
 cli-hub install dingtalk           # 钉钉 (curl script)
 cli-hub install lark               # 飞书 (npm)
 cli-hub install dreamina           # 即梦 AI (curl script)
+cli-hub install gws                # Google Workspace (npm)
+cli-hub install gh                 # GitHub CLI (brew/apt)
+cli-hub install npm                # npm (随 Node.js 自带)
+cli-hub install react-native       # React Native CLI (npm)
 cli-hub install --all              # 全部未安装的
 cli-hub install lark --timeout 300 # 网络慢时加大超时（默认 180s）
 ```
@@ -83,6 +90,9 @@ cli-hub auth wecom
 cli-hub auth dingtalk
 cli-hub auth lark
 cli-hub auth dreamina              # 即梦（终端扫码登录）
+cli-hub auth gws                   # Google Workspace（OAuth 浏览器授权）
+cli-hub auth gh                    # GitHub（浏览器或 token 认证）
+cli-hub auth npm                   # npm login
 cli-hub auth --status              # 查看所有认证状态
 ```
 
@@ -92,6 +102,8 @@ cli-hub auth --status              # 查看所有认证状态
 cli-hub search "发送消息给同事"
 cli-hub search "创建待办" --provider lark
 cli-hub search "生成视频" --provider dreamina
+cli-hub search "create PR" --provider gh
+cli-hub search "send email" --provider gws
 cli-hub search "会议" --json        # Agent 推荐：JSON 输出含 input_schema
 ```
 
@@ -118,6 +130,9 @@ cli-hub run wecom.msg.send_message --args '{"chat_type":1,"chatid":"user1","msgt
 cli-hub run lark.im.messages_send --chat-id oc_xxx --text "Hello"
 cli-hub run dingtalk.todo.task_create --title "写周报" --executors userId
 cli-hub run dreamina.generate.text2image --prompt "a cat portrait" --ratio 1:1
+cli-hub run gh.pr.create --title "Add feature" --base main
+cli-hub run gws.gmail.send --to alice@example.com --subject "Hello" --body "Hi"
+cli-hub run npm.package.install --package express
 ```
 
 **如何判断用哪种？** `cli-hub info <id>` 的 Example 字段会显示底层 CLI 的参数风格。
@@ -129,7 +144,8 @@ cli-hub run dreamina.generate.text2image --prompt "a cat portrait" --ratio 1:1
 | `cli-hub list` | 列出所有 provider |
 | `cli-hub list lark` | 列出飞书所有工具 |
 | `cli-hub list dingtalk --category todo` | 按分类过滤 |
-| `cli-hub refresh` | 从已安装 CLI 刷新 schema |
+| `cli-hub refresh` | 从 clihub.cc 拉取最新 schema + 刷新本地 |
+| `cli-hub refresh --no-remote` | 仅刷新本地，不联网 |
 | `cli-hub add <binary> --display "Name"` | 添加新 CLI provider |
 
 ## 决策树
@@ -160,11 +176,27 @@ cli-hub run dreamina.generate.text2image --prompt "a cat portrait" --ratio 1:1
 
 ## 支持的平台
 
+### 企业协作
+
 | 平台 | Provider | 工具数 | 覆盖领域 |
 |------|----------|-------|---------|
 | 企业微信 | wecom | 28 | 通讯录、待办、会议、消息、日程、文档、智能表格 |
 | 钉钉 | dingtalk | 23 | 通讯录、群聊、日历、待办、审批、考勤、日志、智能表格 |
 | 飞书 | lark | 28 | 日历、消息、文档、云盘、多维表格、电子表格、任务、Wiki、邮件、会议 |
+| Google Workspace | gws | 20 | Drive、Gmail、Calendar、Sheets、Docs、Chat、Workflow |
+
+### 开发者工具
+
+| 平台 | Provider | 工具数 | 覆盖领域 |
+|------|----------|-------|---------|
+| GitHub CLI | gh | 20 | 仓库、PR、Issue、Release、Actions、Gist、搜索、API |
+| npm | npm | 16 | 包安装/发布/搜索/审计、项目初始化/运行、安全检查 |
+| React Native | react-native | 12 | 创建项目、Metro 开发服务器、iOS/Android 构建运行、诊断 |
+
+### AI 创作
+
+| 平台 | Provider | 工具数 | 覆盖领域 |
+|------|----------|-------|---------|
 | 即梦 | dreamina | 12 | 文生图、文生视频、图生图、图生视频、多模态视频、图片超分、Seedance 2.0 |
 
 ## 注意
@@ -174,3 +206,4 @@ cli-hub run dreamina.generate.text2image --prompt "a cat portrait" --ratio 1:1
 - 即梦生成任务是异步的：提交后用 `query_result --submit_id=<id>` 查询结果
 - 搜索结果按相关性排序，优先使用得分最高的工具
 - 逐个调用工具并确认结果，不要批量调用
+- `cli-hub refresh` 会自动从 https://clihub.cc 拉取最新工具列表，新增 provider 无需升级 cli-hub

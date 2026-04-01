@@ -36,8 +36,32 @@ def test_dreamina_schema_exists():
     assert path.exists(), f"dreamina.json not found at {path}"
 
 
+def test_gws_schema_exists():
+    path = _SCHEMAS_DIR / "gws.json"
+    assert path.exists(), f"gws.json not found at {path}"
+
+
+def test_gh_schema_exists():
+    path = _SCHEMAS_DIR / "gh.json"
+    assert path.exists(), f"gh.json not found at {path}"
+
+
+def test_npm_schema_exists():
+    path = _SCHEMAS_DIR / "npm.json"
+    assert path.exists(), f"npm.json not found at {path}"
+
+
+def test_react_native_schema_exists():
+    path = _SCHEMAS_DIR / "react-native.json"
+    assert path.exists(), f"react-native.json not found at {path}"
+
+
+ALL_SCHEMAS = ["wecom.json", "dingtalk.json", "lark.json", "dreamina.json",
+               "gws.json", "gh.json", "npm.json", "react-native.json"]
+
+
 def test_schema_files_valid_json():
-    for name in ["wecom.json", "dingtalk.json", "lark.json", "dreamina.json"]:
+    for name in ALL_SCHEMAS:
         path = _SCHEMAS_DIR / name
         data = json.loads(path.read_text(encoding="utf-8"))
         assert "operations" in data, f"{name} missing 'operations' key"
@@ -46,7 +70,7 @@ def test_schema_files_valid_json():
 
 def test_schema_operations_have_required_fields():
     required_fields = {"category", "name", "description"}
-    for name in ["wecom.json", "dingtalk.json", "lark.json", "dreamina.json"]:
+    for name in ALL_SCHEMAS:
         path = _SCHEMAS_DIR / name
         data = json.loads(path.read_text(encoding="utf-8"))
         for i, op in enumerate(data["operations"]):
@@ -63,6 +87,10 @@ def test_registry_loads_all_providers():
     assert "dingtalk" in providers_found
     assert "lark" in providers_found
     assert "dreamina" in providers_found
+    assert "gws" in providers_found
+    assert "gh" in providers_found
+    assert "npm" in providers_found
+    assert "react-native" in providers_found
 
 
 def test_registry_operation_count():
@@ -83,8 +111,21 @@ def test_dreamina_operation_count():
     assert dreamina_count >= 10, f"Expected ≥10 dreamina ops, got {dreamina_count}"
 
 
+def test_new_providers_operation_count():
+    reg = Registry()
+    reg.load()
+    gws_count = len(reg.list_operations(provider="gws"))
+    gh_count = len(reg.list_operations(provider="gh"))
+    npm_count = len(reg.list_operations(provider="npm"))
+    rn_count = len(reg.list_operations(provider="react-native"))
+    assert gws_count >= 15, f"Expected ≥15 gws ops, got {gws_count}"
+    assert gh_count >= 15, f"Expected ≥15 gh ops, got {gh_count}"
+    assert npm_count >= 10, f"Expected ≥10 npm ops, got {npm_count}"
+    assert rn_count >= 10, f"Expected ≥10 react-native ops, got {rn_count}"
+
+
 def test_registry_total_count():
     reg = Registry()
     reg.load()
     total = len(reg.operations)
-    assert total >= 85, f"Expected ≥85 total ops, got {total}"
+    assert total >= 145, f"Expected ≥145 total ops, got {total}"

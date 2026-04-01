@@ -1,0 +1,234 @@
+{
+  "provider": "dreamina",
+  "version": "1.0.0",
+  "operations": [
+    {
+      "category": "generate",
+      "name": "text2image",
+      "description": "文本生成图片（异步任务），支持多种模型和分辨率",
+      "description_en": "Text to image generation (async)",
+      "keywords": ["图片", "文生图", "AI绘画", "image", "generate", "text2image", "即梦"],
+      "argv_template": ["dreamina", "text2image"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "prompt": {"type": "string", "description": "生成提示词"},
+          "ratio": {"type": "string", "description": "图片比例: 21:9, 16:9, 3:2, 4:3, 1:1, 3:4, 2:3, 9:16"},
+          "resolution_type": {"type": "string", "description": "分辨率: 3.0/3.1→1k|2k, 4.0+→2k|4k"},
+          "model_version": {"type": "string", "description": "模型版本: 3.0, 3.1, 4.0, 4.1, 4.5, 4.6, 5.0, lab"},
+          "poll": {"type": "integer", "description": "提交后轮询秒数，0=不轮询"}
+        },
+        "required": ["prompt"]
+      },
+      "example": "dreamina text2image --prompt=\"a cat portrait\" --ratio=1:1 --resolution_type=2k"
+    },
+    {
+      "category": "generate",
+      "name": "text2video",
+      "description": "文本生成视频（异步任务），支持 Seedance 2.0 系列模型",
+      "description_en": "Text to video generation (async), supports Seedance 2.0",
+      "keywords": ["视频", "文生视频", "video", "text2video", "seedance", "即梦"],
+      "argv_template": ["dreamina", "text2video"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "prompt": {"type": "string", "description": "生成提示词"},
+          "duration": {"type": "integer", "description": "视频时长（秒），范围 4-15，默认 5"},
+          "ratio": {"type": "string", "description": "比例: 1:1, 3:4, 16:9, 4:3, 9:16, 21:9"},
+          "video_resolution": {"type": "string", "description": "分辨率: 720p"},
+          "model_version": {"type": "string", "description": "模型: seedance2.0, seedance2.0fast（默认）"},
+          "poll": {"type": "integer", "description": "提交后轮询秒数"}
+        },
+        "required": ["prompt"]
+      },
+      "example": "dreamina text2video --prompt=\"a cat running\" --duration=5"
+    },
+    {
+      "category": "generate",
+      "name": "image2image",
+      "description": "图片编辑/风格转换（异步任务），上传图片+提示词生成新图片",
+      "description_en": "Image to image transformation (async)",
+      "keywords": ["图片编辑", "图生图", "风格转换", "image2image", "即梦"],
+      "argv_template": ["dreamina", "image2image"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "images": {"type": "string", "description": "本地输入图片路径（可多个）"},
+          "prompt": {"type": "string", "description": "编辑提示词"},
+          "ratio": {"type": "string", "description": "比例: 21:9, 16:9, 3:2, 4:3, 1:1, 3:4, 2:3, 9:16"},
+          "resolution_type": {"type": "string", "description": "分辨率: 2k, 4k"},
+          "model_version": {"type": "string", "description": "模型: 4.0, 4.1, 4.5, 4.6, 5.0, lab"},
+          "poll": {"type": "integer", "description": "提交后轮询秒数"}
+        },
+        "required": ["images", "prompt"]
+      },
+      "example": "dreamina image2image --images ./input.png --prompt=\"turn into watercolor\""
+    },
+    {
+      "category": "generate",
+      "name": "image2video",
+      "description": "单图生成视频（异步任务），将图片动画化为视频",
+      "description_en": "Animate one image into video (async)",
+      "keywords": ["图生视频", "图片动画", "image2video", "即梦"],
+      "argv_template": ["dreamina", "image2video"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "image": {"type": "string", "description": "本地首帧图片路径"},
+          "prompt": {"type": "string", "description": "生成提示词"},
+          "duration": {"type": "integer", "description": "视频时长（秒），默认 5"},
+          "video_resolution": {"type": "string", "description": "分辨率: 720p 或 1080p（取决于模型）"},
+          "model_version": {"type": "string", "description": "模型: 3.0, 3.0fast, 3.0pro, 3.5pro, seedance2.0, seedance2.0fast"},
+          "poll": {"type": "integer", "description": "提交后轮询秒数"}
+        },
+        "required": ["image", "prompt"]
+      },
+      "example": "dreamina image2video --image=./first.png --prompt=\"camera push in\""
+    },
+    {
+      "category": "generate",
+      "name": "image_upscale",
+      "description": "图片超分辨率放大（异步任务），支持最高 8K",
+      "description_en": "Image upscale up to 8K (async)",
+      "keywords": ["超分", "放大", "高清", "upscale", "8k", "即梦"],
+      "argv_template": ["dreamina", "image_upscale"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "image": {"type": "string", "description": "本地输入图片路径"},
+          "resolution_type": {"type": "string", "description": "目标分辨率: 2k, 4k, 8k（4k/8k 需 VIP）"},
+          "poll": {"type": "integer", "description": "提交后轮询秒数"}
+        },
+        "required": ["image"]
+      },
+      "example": "dreamina image_upscale --image=./input.png --resolution_type=4k"
+    },
+    {
+      "category": "generate",
+      "name": "frames2video",
+      "description": "首尾帧生成视频（异步任务），上传两张图片作为首尾帧",
+      "description_en": "First-last frames to video (async)",
+      "keywords": ["首尾帧", "关键帧视频", "frames2video", "即梦"],
+      "argv_template": ["dreamina", "frames2video"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "first": {"type": "string", "description": "本地首帧图片路径"},
+          "last": {"type": "string", "description": "本地末帧图片路径"},
+          "prompt": {"type": "string", "description": "生成提示词"},
+          "duration": {"type": "integer", "description": "视频时长（秒），默认 5"},
+          "video_resolution": {"type": "string", "description": "分辨率: 720p 或 1080p（取决于模型）"},
+          "model_version": {"type": "string", "description": "模型: 3.0, 3.5pro, seedance2.0, seedance2.0fast"},
+          "poll": {"type": "integer", "description": "提交后轮询秒数"}
+        },
+        "required": ["first", "last"]
+      },
+      "example": "dreamina frames2video --first=./start.png --last=./end.png --prompt=\"season changes\""
+    },
+    {
+      "category": "generate",
+      "name": "multiframe2video",
+      "description": "多图生成连贯故事视频（异步任务），2-20 张图片智能编排",
+      "description_en": "Multi-frame intelligent storytelling video (async)",
+      "keywords": ["多图视频", "故事视频", "multiframe", "连贯", "即梦"],
+      "argv_template": ["dreamina", "multiframe2video"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "images": {"type": "string", "description": "本地图片路径（2-20张，逗号分隔）"},
+          "prompt": {"type": "string", "description": "仅2张图时的简写提示词"},
+          "duration": {"type": "number", "description": "仅2张图时的过渡时长（秒），每段 [0.5,8]，默认 3"},
+          "transition-prompt": {"type": "string", "description": "3+张图时的过渡提示词（每段一次，重复 N-1 次）"},
+          "transition-duration": {"type": "string", "description": "3+张图时的过渡时长（每段一次，重复 N-1 次）"},
+          "poll": {"type": "integer", "description": "提交后轮询秒数"}
+        },
+        "required": ["images"]
+      },
+      "example": "dreamina multiframe2video --images ./a.png,./b.png --prompt=\"character turns around\""
+    },
+    {
+      "category": "generate",
+      "name": "multimodal2video",
+      "description": "旗舰多模态视频生成（异步任务），支持图片+视频+音频混合输入，Seedance 2.0",
+      "description_en": "Flagship multimodal video with images, video, audio references (async)",
+      "keywords": ["多模态", "旗舰", "multimodal", "seedance", "音频", "即梦"],
+      "argv_template": ["dreamina", "multimodal2video"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "image": {"type": "string", "description": "输入图片路径（可多次，最多9张）"},
+          "video": {"type": "string", "description": "输入视频路径（可多次，最多3个）"},
+          "audio": {"type": "string", "description": "输入音频路径（可多次，最多3个，2-15秒）"},
+          "prompt": {"type": "string", "description": "多模态编辑提示词"},
+          "duration": {"type": "integer", "description": "视频时长（秒），4-15，默认 5"},
+          "ratio": {"type": "string", "description": "比例: 1:1, 3:4, 16:9, 4:3, 9:16, 21:9"},
+          "video_resolution": {"type": "string", "description": "分辨率: 720p"},
+          "model_version": {"type": "string", "description": "模型: seedance2.0, seedance2.0fast"},
+          "poll": {"type": "integer", "description": "提交后轮询秒数"}
+        },
+        "required": []
+      },
+      "example": "dreamina multimodal2video --image ./input.png --prompt=\"turn this into a cinematic shot\""
+    },
+    {
+      "category": "account",
+      "name": "login",
+      "description": "登录即梦账号（交互式），Agent 场景推荐 --headless 模式",
+      "description_en": "Log in to Dreamina account",
+      "keywords": ["登录", "login", "认证", "即梦"],
+      "argv_template": ["dreamina", "login"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "headless": {"type": "boolean", "description": "无头浏览器模式（Agent 推荐）"}
+        }
+      },
+      "example": "dreamina login --headless"
+    },
+    {
+      "category": "account",
+      "name": "user_credit",
+      "description": "查询当前账号剩余积分（credits）",
+      "description_en": "Check remaining credits",
+      "keywords": ["积分", "余额", "credit", "即梦"],
+      "argv_template": ["dreamina", "user_credit"],
+      "example": "dreamina user_credit"
+    },
+    {
+      "category": "task",
+      "name": "query_result",
+      "description": "查询异步生成任务的结果，支持下载媒体文件",
+      "description_en": "Query async task result by submit_id",
+      "keywords": ["查询", "结果", "任务", "query", "result", "即梦"],
+      "argv_template": ["dreamina", "query_result"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "submit_id": {"type": "string", "description": "任务提交 ID"},
+          "download_dir": {"type": "string", "description": "下载结果媒体到指定目录"}
+        },
+        "required": ["submit_id"]
+      },
+      "example": "dreamina query_result --submit_id=3f6eb41f425d23a3"
+    },
+    {
+      "category": "task",
+      "name": "list_task",
+      "description": "列出已保存的生成任务，支持按状态和类型过滤",
+      "description_en": "List saved generation tasks with filters",
+      "keywords": ["任务列表", "历史", "task", "list", "即梦"],
+      "argv_template": ["dreamina", "list_task"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "gen_status": {"type": "string", "description": "按状态过滤: success, fail, querying"},
+          "gen_task_type": {"type": "string", "description": "按任务类型过滤"},
+          "submit_id": {"type": "string", "description": "按提交 ID 过滤"},
+          "limit": {"type": "integer", "description": "最大返回数量，默认 20"},
+          "offset": {"type": "integer", "description": "分页偏移量"}
+        }
+      },
+      "example": "dreamina list_task --gen_status=success"
+    }
+  ]
+}

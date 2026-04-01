@@ -1,0 +1,66 @@
+[
+  {
+    "name": "wecom",
+    "display_name": "WeCom (企业微信)",
+    "cli_binary": "wecom-cli",
+    "install_command": "npm install -g @wecom/cli && npx skills add WeComTeam/wecom-cli -y -g",
+    "homepage": "https://github.com/WecomTeam/wecom-cli",
+    "description": "企业微信 CLI — 通讯录、待办、会议、消息、日程、文档、智能表格"
+  },
+  {
+    "name": "dingtalk",
+    "display_name": "DingTalk (钉钉)",
+    "cli_binary": "dws",
+    "install_command": "curl -fsSL https://raw.githubusercontent.com/DingTalk-Real-AI/dingtalk-workspace-cli/main/scripts/install.sh | sh",
+    "homepage": "https://github.com/DingTalk-Real-AI/dingtalk-workspace-cli",
+    "description": "钉钉 CLI — 通讯录、群聊、日历、待办、审批、考勤、日志、智能表格"
+  },
+  {
+    "name": "lark",
+    "display_name": "Lark / Feishu (飞书)",
+    "cli_binary": "lark-cli",
+    "install_command": "npm install -g @larksuite/cli && npx skills add larksuite/cli -y -g",
+    "homepage": "https://github.com/larksuite/cli",
+    "description": "飞书 CLI — 日历、消息、文档、云盘、多维表格、电子表格、任务、Wiki、邮件、会议"
+  },
+  {
+    "name": "dreamina",
+    "display_name": "Dreamina (即梦)",
+    "cli_binary": "dreamina",
+    "install_command": "curl -s https://jimeng.jianying.com/cli | bash",
+    "homepage": "https://jimeng.jianying.com",
+    "description": "即梦 CLI — AI 文生图、文生视频、图生视频、多模态视频、图片超分、Seedance 2.0"
+  },
+  {
+    "name": "gws",
+    "display_name": "Google Workspace (GWS)",
+    "cli_binary": "gws",
+    "install_command": "npm install -g @googleworkspace/cli",
+    "homepage": "https://github.com/googleworkspace/cli",
+    "description": "Google Workspace CLI — Drive、Gmail、Calendar、Sheets、Docs、Chat、Admin 全覆盖"
+  },
+  {
+    "name": "gh",
+    "display_name": "GitHub CLI (gh)",
+    "cli_binary": "gh",
+    "install_command": "brew install gh",
+    "homepage": "https://github.com/cli/cli",
+    "description": "GitHub CLI — 仓库、PR、Issue、Release、Actions、Gist、搜索"
+  },
+  {
+    "name": "npm",
+    "display_name": "npm",
+    "cli_binary": "npm",
+    "install_command": "随 Node.js 自带",
+    "homepage": "https://github.com/npm/cli",
+    "description": "npm — JavaScript 包管理器，安装/发布/搜索/审计 npm 包"
+  },
+  {
+    "name": "react-native",
+    "display_name": "React Native CLI",
+    "cli_binary": "npx react-native",
+    "install_command": "npm install -g @react-native-community/cli",
+    "homepage": "https://github.com/react-native-community/cli",
+    "description": "React Native CLI — 创建、构建、运行 React Native 应用（iOS/Android）"
+  }
+]

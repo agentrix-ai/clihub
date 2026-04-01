@@ -1,0 +1,214 @@
+{
+  "provider": "dingtalk",
+  "version": "1.0.0",
+  "operations": [
+    {
+      "category": "contact",
+      "name": "user_search",
+      "description": "按姓名/手机号搜索联系人",
+      "description_en": "Search contacts by name or phone",
+      "keywords": ["通讯录", "搜索", "联系人", "contact", "search", "user"],
+      "argv_template": ["dws", "contact", "user", "search"],
+      "example": "dws contact user search --keyword \"悟空\""
+    },
+    {
+      "category": "contact",
+      "name": "user_get_self",
+      "description": "获取当前登录用户信息",
+      "description_en": "Get current user info",
+      "keywords": ["当前用户", "我", "self", "contact"],
+      "argv_template": ["dws", "contact", "user", "get-self"],
+      "example": "dws contact user get-self"
+    },
+    {
+      "category": "contact",
+      "name": "dept_list",
+      "description": "获取部门列表和部门树",
+      "description_en": "Get department list and tree",
+      "keywords": ["部门", "department", "dept", "组织"],
+      "argv_template": ["dws", "contact", "dept", "list"],
+      "example": "dws contact dept list"
+    },
+    {
+      "category": "chat",
+      "name": "message_send_by_bot",
+      "description": "通过机器人发送群消息或单聊消息",
+      "description_en": "Send message via bot to group or user",
+      "keywords": ["发送", "消息", "机器人", "chat", "message", "send", "bot"],
+      "argv_template": ["dws", "chat", "message", "send-by-bot"],
+      "example": "dws chat message send-by-bot --robot-code BOT_CODE --group GROUP_ID --title \"通知\" --text \"内容\""
+    },
+    {
+      "category": "chat",
+      "name": "group_create",
+      "description": "创建群聊",
+      "description_en": "Create a group chat",
+      "keywords": ["创建", "群聊", "群", "chat", "group", "create"],
+      "argv_template": ["dws", "chat", "group", "create"],
+      "example": "dws chat group create --title \"项目群\" --robot-code BOT_CODE"
+    },
+    {
+      "category": "chat",
+      "name": "group_list",
+      "description": "查询群列表",
+      "description_en": "List group chats",
+      "keywords": ["群聊", "列表", "chat", "group", "list"],
+      "argv_template": ["dws", "chat", "group", "list"],
+      "example": "dws chat group list"
+    },
+    {
+      "category": "calendar",
+      "name": "event_list",
+      "description": "查看日历日程列表",
+      "description_en": "List calendar events",
+      "keywords": ["日历", "日程", "事件", "calendar", "event", "agenda"],
+      "argv_template": ["dws", "calendar", "event", "list"],
+      "example": "dws calendar event list"
+    },
+    {
+      "category": "calendar",
+      "name": "event_create",
+      "description": "创建日历日程",
+      "description_en": "Create a calendar event",
+      "keywords": ["创建", "日程", "日历", "calendar", "event", "create"],
+      "argv_template": ["dws", "calendar", "event", "create"],
+      "example": "dws calendar event create --summary \"需求评审\" --start \"2026-04-02 14:00\" --end \"2026-04-02 15:00\""
+    },
+    {
+      "category": "calendar",
+      "name": "room_list",
+      "description": "查询可用会议室列表",
+      "description_en": "List available meeting rooms",
+      "keywords": ["会议室", "room", "calendar"],
+      "argv_template": ["dws", "calendar", "room", "list"],
+      "example": "dws calendar room list"
+    },
+    {
+      "category": "calendar",
+      "name": "busy_query",
+      "description": "查询多人闲忙状态",
+      "description_en": "Query free/busy status for multiple users",
+      "keywords": ["闲忙", "空闲", "忙碌", "busy", "free", "availability"],
+      "argv_template": ["dws", "calendar", "busy", "query"],
+      "example": "dws calendar busy query --user-ids user1,user2 --start \"2026-04-02 09:00\" --end \"2026-04-02 18:00\""
+    },
+    {
+      "category": "todo",
+      "name": "task_list",
+      "description": "查询待办任务列表",
+      "description_en": "List todo tasks",
+      "keywords": ["待办", "任务", "列表", "todo", "task", "list"],
+      "argv_template": ["dws", "todo", "task", "list"],
+      "example": "dws todo task list"
+    },
+    {
+      "category": "todo",
+      "name": "task_create",
+      "description": "创建待办任务",
+      "description_en": "Create a todo task",
+      "keywords": ["创建", "待办", "任务", "todo", "task", "create"],
+      "argv_template": ["dws", "todo", "task", "create"],
+      "input_schema": {"type": "object", "properties": {"title": {"type": "string"}, "executors": {"type": "string"}}, "required": ["title"]},
+      "example": "dws todo task create --title \"季度汇报\" --executors \"userId\""
+    },
+    {
+      "category": "todo",
+      "name": "task_update",
+      "description": "更新待办任务",
+      "description_en": "Update a todo task",
+      "keywords": ["更新", "修改", "待办", "todo", "task", "update"],
+      "argv_template": ["dws", "todo", "task", "update"],
+      "example": "dws todo task update --task-id TASK_ID --done true"
+    },
+    {
+      "category": "oa",
+      "name": "approval_list",
+      "description": "查询待我审批的流程列表",
+      "description_en": "List pending approvals",
+      "keywords": ["审批", "流程", "oa", "approval", "pending"],
+      "argv_template": ["dws", "oa", "approval", "list"],
+      "example": "dws oa approval list"
+    },
+    {
+      "category": "oa",
+      "name": "approval_approve",
+      "description": "同意审批流程",
+      "description_en": "Approve a process",
+      "keywords": ["同意", "审批", "通过", "oa", "approval", "approve"],
+      "argv_template": ["dws", "oa", "approval", "approve"],
+      "example": "dws oa approval approve --process-instance-id PID --task-id TID"
+    },
+    {
+      "category": "attendance",
+      "name": "record_get",
+      "description": "查看考勤打卡记录",
+      "description_en": "Get attendance records",
+      "keywords": ["考勤", "打卡", "记录", "attendance", "record"],
+      "argv_template": ["dws", "attendance", "record", "get"],
+      "example": "dws attendance record get --date 2026-04-01"
+    },
+    {
+      "category": "attendance",
+      "name": "shift_query",
+      "description": "查询排班信息",
+      "description_en": "Query shift information",
+      "keywords": ["排班", "班次", "shift", "attendance"],
+      "argv_template": ["dws", "attendance", "shift", "query"],
+      "example": "dws attendance shift query"
+    },
+    {
+      "category": "report",
+      "name": "list_received",
+      "description": "查看收到的日志列表",
+      "description_en": "List received reports",
+      "keywords": ["日志", "汇报", "周报", "日报", "report"],
+      "argv_template": ["dws", "report", "list"],
+      "example": "dws report list"
+    },
+    {
+      "category": "aitable",
+      "name": "record_query",
+      "description": "查询智能表格记录",
+      "description_en": "Query AITable records",
+      "keywords": ["多维表格", "表格", "记录", "aitable", "base", "record", "query"],
+      "argv_template": ["dws", "aitable", "record", "query"],
+      "example": "dws aitable record query --base-id BASE_ID --table-id TABLE_ID"
+    },
+    {
+      "category": "aitable",
+      "name": "record_create",
+      "description": "添加智能表格记录",
+      "description_en": "Create AITable records",
+      "keywords": ["添加", "表格", "记录", "aitable", "record", "create"],
+      "argv_template": ["dws", "aitable", "record", "create"],
+      "example": "dws aitable record create --base-id BASE_ID --table-id TABLE_ID --fields '{\"Name\":\"value\"}'"
+    },
+    {
+      "category": "aitable",
+      "name": "base_list",
+      "description": "列出所有多维表格",
+      "description_en": "List all AITable bases",
+      "keywords": ["多维表格", "列表", "aitable", "base"],
+      "argv_template": ["dws", "aitable", "base", "list"],
+      "example": "dws aitable base list"
+    },
+    {
+      "category": "aitable",
+      "name": "field_list",
+      "description": "查询表格字段信息",
+      "description_en": "List AITable fields",
+      "keywords": ["字段", "列", "field", "aitable"],
+      "argv_template": ["dws", "aitable", "field", "list"],
+      "example": "dws aitable field list --base-id BASE_ID --table-id TABLE_ID"
+    },
+    {
+      "category": "ding",
+      "name": "message_send",
+      "description": "发送 DING 消息",
+      "description_en": "Send a DING message",
+      "keywords": ["DING", "消息", "提醒", "ding", "message"],
+      "argv_template": ["dws", "ding", "message", "send"],
+      "example": "dws ding message send --user-ids user1 --content \"紧急通知\""
+    }
+  ]
+}

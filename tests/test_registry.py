@@ -12,6 +12,10 @@ def test_builtin_providers():
     assert "wecom" in BUILTIN_PROVIDERS
     assert "dingtalk" in BUILTIN_PROVIDERS
     assert "lark" in BUILTIN_PROVIDERS
+    assert "gws" in BUILTIN_PROVIDERS
+    assert "gh" in BUILTIN_PROVIDERS
+    assert "npm" in BUILTIN_PROVIDERS
+    assert "react-native" in BUILTIN_PROVIDERS
 
 
 def test_registry_load():
@@ -26,6 +30,10 @@ def test_registry_providers():
     assert "wecom" in providers
     assert "dingtalk" in providers
     assert "lark" in providers
+    assert "gws" in providers
+    assert "gh" in providers
+    assert "npm" in providers
+    assert "react-native" in providers
 
 
 def test_get_operation_by_id():

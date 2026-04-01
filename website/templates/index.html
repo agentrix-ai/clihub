@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>cli-hub — One Skill to Rule All Enterprise CLIs</title>
+  <meta name="description" content="Stop juggling {{ provider_count }} CLIs. One install, {{ total_tools }}+ tools across WeCom, DingTalk, Lark, Google Workspace, GitHub &amp; more. Built for AI Agents.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+<div class="bg-grid"></div>
+
+<!-- Nav -->
+<nav>
+  <div class="container">
+    <div class="logo"><span>cli-hub</span></div>
+    <div class="links">
+      <a href="#platforms">Platforms</a>
+      <a href="#quickstart">Quick Start</a>
+      <a href="#api">API</a>
+      <a href="https://github.com/agentrix-ai/clihub" target="_blank" class="gh-btn">
+        <svg viewBox="0 0 16 16"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg>
+        GitHub
+      </a>
+    </div>
+  </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      v{{ version }} — Open Source, MIT License
+    </div>
+
+    <h1>Stop Juggling<br><span class="gradient">{{ provider_count }} CLIs, {{ provider_count }} Skills, {{ provider_count }} Auth Flows</span></h1>
+    <p class="sub">
+      <strong>One install. {{ total_tools }}+ tools.</strong> Search, auth and invoke
+      WeCom, DingTalk, Lark, Google Workspace, GitHub, npm &amp; more from a single command — built for AI Agents and developers.
+    </p>
+
+    <!-- Pain vs Solution -->
+    <div class="pain-solution">
+      <div class="pain">
+        <h4>Before</h4>
+        <ul>
+          <li>Install {{ provider_count }} CLIs separately</li>
+          <li>Learn {{ provider_count }} different syntaxes</li>
+          <li>Maintain {{ provider_count }} Agent Skills</li>
+          <li>Auth each one individually</li>
+        </ul>
+      </div>
+      <div class="solution">
+        <h4>With cli-hub</h4>
+        <ul>
+          <li>One install, all platforms</li>
+          <li>Unified search &amp; invoke</li>
+          <li>Single Skill for any Agent</li>
+          <li>cli-hub auth &lt;provider&gt;</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Install -->
+    <div class="install-row">
+      <div class="install-box" onclick="copyInstall(this)" title="Click to copy">
+        <span class="prompt mono">$</span>
+        <code>pip install agent-cli-hub</code>
+        <span class="copy-hint">copy</span>
+      </div>
+    </div>
+    <div class="links-row">
+      <a href="https://pypi.org/project/agent-cli-hub/" target="_blank">PyPI</a> &middot;
+      <a href="https://github.com/agentrix-ai/clihub" target="_blank">GitHub</a> &middot;
+      <a href="https://github.com/agentrix-ai/clihub/blob/main/skills/SKILL.md" target="_blank">Agent Skill</a>
+    </div>
+  </div>
+</section>
+
+<!-- Stats -->
+<div class="stats-bar">
+  <div class="container" style="display:flex;justify-content:center;gap:56px;flex-wrap:wrap">
+    <div class="stat"><div class="num">{{ total_tools }}+</div><div class="label">Tools</div></div>
+    <div class="stat"><div class="num">{{ provider_count }}</div><div class="label">Platforms</div></div>
+    <div class="stat"><div class="num">1</div><div class="label">CLI to learn</div></div>
+    <div class="stat"><div class="num">1</div><div class="label">Skill for any Agent</div></div>
+  </div>
+</div>
+
+<!-- Platforms -->
+<section id="platforms">
+  <div class="container">
+    <div class="section-label">Platforms</div>
+    <h2 class="section-title">Enterprise, Developer &amp; AI Tools, Unified</h2>
+    <p class="section-desc">Every platform's CLI tools available through a single interface. New providers are added without updating your install.</p>
+
+    <div class="providers-grid">
+      {% for p in providers %}
+      <div class="p-card c-{{ p.name }}">
+        <div class="p-header">
+          <h3>{{ p.display_name }}</h3>
+          <div class="count">{{ p.tools_count }}</div>
+        </div>
+        <div class="p-desc">{{ p.description }}</div>
+        <div class="tags">
+          {% for cat in p.categories %}
+          <span class="tag">{{ cat }}</span>
+          {% endfor %}
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+
+<!-- Terminal Demo -->
+<section class="terminal-section" id="quickstart">
+  <div class="container">
+    <div class="section-label">Quick Start</div>
+    <h2 class="section-title">3 Commands. That's It.</h2>
+    <p class="section-desc">From zero to invoking enterprise tools in under a minute.</p>
+
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="terminal-dot r"></div>
+        <div class="terminal-dot y"></div>
+        <div class="terminal-dot g"></div>
+        <span>cli-hub — zsh</span>
+      </div>
+      <div class="terminal-body">
+        <div><span class="prompt">$ </span><span class="cmd">cli-hub doctor</span></div>
+        <div class="output">  OK  WeCom (企业微信): v1.2.0, auth: authenticated</div>
+        <div class="output">  OK  DingTalk (钉钉): v0.9.1, auth: authenticated</div>
+        <div class="output">  OK  Lark / Feishu (飞书): v3.1.0, auth: authenticated</div>
+        <div class="output">  OK  Dreamina (即梦): v4946b9d, auth: authenticated</div>
+        <div class="output">  Schema: <span class="highlight">{{ total_tools }} operations</span> loaded</div>
+        <br>
+        <div><span class="prompt">$ </span><span class="cmd">cli-hub search "send message"</span></div>
+        <div class="output">  <span class="highlight">wecom.msg.send_message</span>    发送消息给同事或群聊    0.92</div>
+        <div class="output">  <span class="highlight">lark.im.messages_send</span>     发送飞书消息            0.87</div>
+        <div class="output">  <span class="highlight">dingtalk.chat.send</span>        发送钉钉群消息          0.85</div>
+        <br>
+        <div><span class="prompt">$ </span><span class="cmd">cli-hub run wecom.msg.send_message --args '{"chatid":"team","text":{"content":"Hi!"}}'</span></div>
+        <div class="output">  <span style="color:var(--green)">Message sent successfully.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Schema Registry API -->
+<section id="api" style="padding-bottom:100px">
+  <div class="container">
+    <div class="section-label">Schema Registry</div>
+    <h2 class="section-title">Always Up-to-Date, No Reinstall</h2>
+    <p class="section-desc">New providers are published to this registry. Run <code style="color:var(--green)">cli-hub refresh</code> to get the latest tools — no pip upgrade needed.</p>
+
+    <div class="api-grid">
+      <a href="/api/providers" class="api-item" style="text-decoration:none">
+        <span class="api-method">GET</span>
+        <div>
+          <div class="api-path">/api/providers</div>
+          <div class="api-desc">All providers with tool counts</div>
+        </div>
+      </a>
+      <a href="/api/schemas" class="api-item" style="text-decoration:none">
+        <span class="api-method">GET</span>
+        <div>
+          <div class="api-path">/api/schemas</div>
+          <div class="api-desc">Full schema bundle (for cli-hub refresh)</div>
+        </div>
+      </a>
+      <a href="/api/schemas/wecom" class="api-item" style="text-decoration:none">
+        <span class="api-method">GET</span>
+        <div>
+          <div class="api-path">/api/schemas/{provider}</div>
+          <div class="api-desc">Single provider schema</div>
+        </div>
+      </a>
+      <a href="/api/version" class="api-item" style="text-decoration:none">
+        <span class="api-method">GET</span>
+        <div>
+          <div class="api-path">/api/version</div>
+          <div class="api-desc">Registry version &amp; timestamp</div>
+        </div>
+      </a>
+      <a href="/health" class="api-item" style="text-decoration:none">
+        <span class="api-method">GET</span>
+        <div>
+          <div class="api-path">/health</div>
+          <div class="api-desc">Health check</div>
+        </div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="container">
+    <p style="margin-bottom:8px"><strong style="color:var(--text)">cli-hub</strong> — One Skill to Rule All Enterprise CLIs</p>
+    <p>
+      Built by <a href="https://github.com/agentrix-ai" target="_blank">Agentrix AI</a> &middot;
+      <a href="https://github.com/agentrix-ai/clihub" target="_blank">Source Code</a> &middot;
+      <a href="https://pypi.org/project/agent-cli-hub/" target="_blank">PyPI</a> &middot;
+      <a href="/api/providers">API</a>
+    </p>
+  </div>
+</footer>
+
+<script>
+function copyInstall(el){
+  navigator.clipboard.writeText('pip install agent-cli-hub').then(()=>{
+    const h=el.querySelector('.copy-hint');
+    h.textContent='copied!';h.style.opacity='1';
+    setTimeout(()=>{h.textContent='copy';h.style.opacity='';},2000);
+  });
+}
+</script>
+</body>
+</html>

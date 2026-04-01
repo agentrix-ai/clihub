@@ -1,0 +1,301 @@
+{
+  "provider": "gws",
+  "version": "1.0.0",
+  "operations": [
+    {
+      "category": "drive",
+      "name": "files_list",
+      "description": "列出 Google Drive 文件，支持搜索和分页",
+      "description_en": "List Google Drive files with search and pagination",
+      "keywords": ["drive", "文件", "列表", "files", "list", "google", "云盘"],
+      "argv_template": ["gws", "drive", "files", "list"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "params": {"type": "string", "description": "JSON params, e.g. {\"pageSize\": 10, \"q\": \"name contains 'report'\"}"}
+        }
+      },
+      "example": "gws drive files list --params '{\"pageSize\": 10}'"
+    },
+    {
+      "category": "drive",
+      "name": "files_get",
+      "description": "获取 Drive 文件元数据",
+      "description_en": "Get Drive file metadata by ID",
+      "keywords": ["drive", "文件", "详情", "get", "metadata"],
+      "argv_template": ["gws", "drive", "files", "get"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "params": {"type": "string", "description": "JSON params with fileId, e.g. {\"fileId\": \"xxx\"}"}
+        },
+        "required": ["params"]
+      },
+      "example": "gws drive files get --params '{\"fileId\": \"FILE_ID\"}'"
+    },
+    {
+      "category": "drive",
+      "name": "upload",
+      "description": "上传文件到 Google Drive（helper 命令）",
+      "description_en": "Upload a file to Google Drive (helper command)",
+      "keywords": ["drive", "上传", "upload", "文件"],
+      "argv_template": ["gws", "drive", "+upload"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "file": {"type": "string", "description": "本地文件路径"},
+          "name": {"type": "string", "description": "Drive 上的文件名"}
+        },
+        "required": ["file"]
+      },
+      "example": "gws drive +upload ./report.pdf --name 'Q1 Report'"
+    },
+    {
+      "category": "gmail",
+      "name": "send",
+      "description": "发送电子邮件（helper 命令）",
+      "description_en": "Send an email (helper command)",
+      "keywords": ["gmail", "邮件", "发送", "email", "send"],
+      "argv_template": ["gws", "gmail", "+send"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "to": {"type": "string", "description": "收件人邮箱"},
+          "subject": {"type": "string", "description": "邮件主题"},
+          "body": {"type": "string", "description": "邮件正文"}
+        },
+        "required": ["to", "subject", "body"]
+      },
+      "example": "gws gmail +send --to alice@example.com --subject 'Hello' --body 'Hi there'"
+    },
+    {
+      "category": "gmail",
+      "name": "reply",
+      "description": "回复邮件（helper 命令）",
+      "description_en": "Reply to an email message",
+      "keywords": ["gmail", "回复", "reply", "邮件"],
+      "argv_template": ["gws", "gmail", "+reply"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "message-id": {"type": "string", "description": "要回复的消息 ID"},
+          "body": {"type": "string", "description": "回复正文"}
+        },
+        "required": ["message-id", "body"]
+      },
+      "example": "gws gmail +reply --message-id MSG_ID --body 'Thanks!'"
+    },
+    {
+      "category": "gmail",
+      "name": "triage",
+      "description": "查看未读收件箱摘要（发件人、主题、日期）",
+      "description_en": "Show unread inbox summary (sender, subject, date)",
+      "keywords": ["gmail", "未读", "收件箱", "inbox", "triage", "邮件"],
+      "argv_template": ["gws", "gmail", "+triage"],
+      "example": "gws gmail +triage"
+    },
+    {
+      "category": "gmail",
+      "name": "messages_list",
+      "description": "列出 Gmail 消息",
+      "description_en": "List Gmail messages",
+      "keywords": ["gmail", "消息", "列表", "messages", "list"],
+      "argv_template": ["gws", "gmail", "users", "messages", "list"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "params": {"type": "string", "description": "JSON params, e.g. {\"userId\": \"me\", \"maxResults\": 10, \"q\": \"from:boss\"}"}
+        }
+      },
+      "example": "gws gmail users messages list --params '{\"userId\": \"me\", \"maxResults\": 5}'"
+    },
+    {
+      "category": "calendar",
+      "name": "agenda",
+      "description": "查看今日/近期日历议程（helper 命令）",
+      "description_en": "Show upcoming calendar agenda (helper command)",
+      "keywords": ["日历", "议程", "agenda", "calendar", "日程", "会议"],
+      "argv_template": ["gws", "calendar", "+agenda"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "today": {"type": "boolean", "description": "仅显示今天的日程"},
+          "timezone": {"type": "string", "description": "时区，如 Asia/Shanghai"}
+        }
+      },
+      "example": "gws calendar +agenda --today --timezone Asia/Shanghai"
+    },
+    {
+      "category": "calendar",
+      "name": "insert",
+      "description": "创建日历事件（helper 命令）",
+      "description_en": "Create a calendar event (helper command)",
+      "keywords": ["日历", "创建", "事件", "event", "insert", "calendar"],
+      "argv_template": ["gws", "calendar", "+insert"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "summary": {"type": "string", "description": "事件标题"},
+          "start": {"type": "string", "description": "开始时间"},
+          "end": {"type": "string", "description": "结束时间"},
+          "attendees": {"type": "string", "description": "参与者邮箱，逗号分隔"}
+        },
+        "required": ["summary"]
+      },
+      "example": "gws calendar +insert --summary 'Team Sync' --start '2026-04-02T10:00:00' --end '2026-04-02T11:00:00'"
+    },
+    {
+      "category": "sheets",
+      "name": "read",
+      "description": "读取 Google Sheets 单元格数据（helper 命令）",
+      "description_en": "Read values from a Google Spreadsheet",
+      "keywords": ["表格", "读取", "sheets", "spreadsheet", "read", "数据"],
+      "argv_template": ["gws", "sheets", "+read"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "spreadsheet": {"type": "string", "description": "Spreadsheet ID"},
+          "range": {"type": "string", "description": "单元格范围，如 Sheet1!A1:C10"}
+        },
+        "required": ["spreadsheet"]
+      },
+      "example": "gws sheets +read --spreadsheet SPREADSHEET_ID --range 'Sheet1!A1:C10'"
+    },
+    {
+      "category": "sheets",
+      "name": "append",
+      "description": "向 Google Sheets 追加行数据（helper 命令）",
+      "description_en": "Append a row to a Google Spreadsheet",
+      "keywords": ["表格", "追加", "写入", "sheets", "append", "数据"],
+      "argv_template": ["gws", "sheets", "+append"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "spreadsheet": {"type": "string", "description": "Spreadsheet ID"},
+          "values": {"type": "string", "description": "逗号分隔的值，如 'Alice,95'"}
+        },
+        "required": ["spreadsheet", "values"]
+      },
+      "example": "gws sheets +append --spreadsheet SPREADSHEET_ID --values 'Alice,95'"
+    },
+    {
+      "category": "sheets",
+      "name": "spreadsheets_create",
+      "description": "创建新的 Google Spreadsheet",
+      "description_en": "Create a new Google Spreadsheet",
+      "keywords": ["表格", "创建", "sheets", "spreadsheet", "create", "新建"],
+      "argv_template": ["gws", "sheets", "spreadsheets", "create"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "json": {"type": "string", "description": "JSON body, e.g. {\"properties\": {\"title\": \"My Sheet\"}}"}
+        },
+        "required": ["json"]
+      },
+      "example": "gws sheets spreadsheets create --json '{\"properties\": {\"title\": \"Q1 Budget\"}}'"
+    },
+    {
+      "category": "docs",
+      "name": "write",
+      "description": "向 Google Docs 追加文本（helper 命令）",
+      "description_en": "Append text to a Google Doc (helper command)",
+      "keywords": ["文档", "写入", "docs", "write", "追加"],
+      "argv_template": ["gws", "docs", "+write"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "documentId": {"type": "string", "description": "文档 ID"},
+          "text": {"type": "string", "description": "要追加的文本"}
+        },
+        "required": ["documentId", "text"]
+      },
+      "example": "gws docs +write --documentId DOC_ID --text 'New paragraph'"
+    },
+    {
+      "category": "chat",
+      "name": "send",
+      "description": "在 Google Chat 空间发送消息（helper 命令）",
+      "description_en": "Send a message to a Google Chat space",
+      "keywords": ["聊天", "消息", "chat", "send", "google chat"],
+      "argv_template": ["gws", "chat", "+send"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "space": {"type": "string", "description": "Space ID"},
+          "text": {"type": "string", "description": "消息文本"}
+        },
+        "required": ["space", "text"]
+      },
+      "example": "gws chat +send --space spaces/xyz --text 'Deploy complete.'"
+    },
+    {
+      "category": "workflow",
+      "name": "standup_report",
+      "description": "生成每日站会报告（会议 + 待办摘要）",
+      "description_en": "Generate daily standup report (meetings + tasks summary)",
+      "keywords": ["站会", "报告", "standup", "workflow", "日报"],
+      "argv_template": ["gws", "workflow", "+standup-report"],
+      "example": "gws workflow +standup-report"
+    },
+    {
+      "category": "workflow",
+      "name": "meeting_prep",
+      "description": "为下一场会议准备材料（议程、参与者、关联文档）",
+      "description_en": "Prepare for next meeting: agenda, attendees, linked docs",
+      "keywords": ["会议", "准备", "meeting", "prep", "workflow"],
+      "argv_template": ["gws", "workflow", "+meeting-prep"],
+      "example": "gws workflow +meeting-prep"
+    },
+    {
+      "category": "workflow",
+      "name": "weekly_digest",
+      "description": "生成每周摘要（本周会议 + 未读邮件数）",
+      "description_en": "Weekly digest: this week's meetings + unread email count",
+      "keywords": ["周报", "摘要", "weekly", "digest", "workflow"],
+      "argv_template": ["gws", "workflow", "+weekly-digest"],
+      "example": "gws workflow +weekly-digest"
+    },
+    {
+      "category": "schema",
+      "name": "inspect",
+      "description": "查看任意 Google API 方法的请求/响应 schema",
+      "description_en": "Inspect request/response schema for any Google API method",
+      "keywords": ["schema", "API", "inspect", "查看"],
+      "argv_template": ["gws", "schema"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "method": {"type": "string", "description": "API 方法名，如 drive.files.list"}
+        },
+        "required": ["method"]
+      },
+      "example": "gws schema drive.files.list"
+    },
+    {
+      "category": "auth",
+      "name": "setup",
+      "description": "一键设置 Google Cloud 项目和 OAuth（需要 gcloud）",
+      "description_en": "One-time setup: create Cloud project, enable APIs, and log in",
+      "keywords": ["认证", "设置", "auth", "setup", "oauth", "login"],
+      "argv_template": ["gws", "auth", "setup"],
+      "auth_required": false,
+      "example": "gws auth setup"
+    },
+    {
+      "category": "auth",
+      "name": "login",
+      "description": "Google Workspace OAuth 登录（支持选择 API scope）",
+      "description_en": "OAuth login with scope selection",
+      "keywords": ["登录", "认证", "auth", "login", "oauth"],
+      "argv_template": ["gws", "auth", "login"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "scopes": {"type": "string", "description": "逗号分隔的 scope，如 drive,gmail,calendar"}
+        }
+      },
+      "auth_required": false,
+      "example": "gws auth login -s drive,gmail,sheets"
+    }
+  ]
+}

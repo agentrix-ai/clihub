@@ -1,0 +1,260 @@
+{
+  "provider": "npm",
+  "version": "1.0.0",
+  "operations": [
+    {
+      "category": "package",
+      "name": "install",
+      "description": "安装 npm 包（支持全局和本地安装）",
+      "description_en": "Install npm packages (global or local)",
+      "keywords": ["安装", "包", "install", "package", "依赖", "dependency"],
+      "argv_template": ["npm", "install"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "package": {"type": "string", "description": "包名，如 express 或 express@4.18"},
+          "global": {"type": "boolean", "description": "全局安装 (-g)"},
+          "save-dev": {"type": "boolean", "description": "作为开发依赖 (--save-dev)"}
+        }
+      },
+      "example": "npm install express"
+    },
+    {
+      "category": "package",
+      "name": "uninstall",
+      "description": "卸载 npm 包",
+      "description_en": "Uninstall npm packages",
+      "keywords": ["卸载", "删除", "uninstall", "remove", "包"],
+      "argv_template": ["npm", "uninstall"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "package": {"type": "string", "description": "包名"},
+          "global": {"type": "boolean", "description": "全局卸载 (-g)"}
+        },
+        "required": ["package"]
+      },
+      "example": "npm uninstall lodash"
+    },
+    {
+      "category": "package",
+      "name": "update",
+      "description": "更新 npm 包到最新版本",
+      "description_en": "Update npm packages to latest version",
+      "keywords": ["更新", "升级", "update", "upgrade", "包"],
+      "argv_template": ["npm", "update"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "package": {"type": "string", "description": "包名（不填则更新全部）"},
+          "global": {"type": "boolean", "description": "更新全局包"}
+        }
+      },
+      "example": "npm update express"
+    },
+    {
+      "category": "search",
+      "name": "search",
+      "description": "在 npm 注册表中搜索包",
+      "description_en": "Search the npm registry for packages",
+      "keywords": ["搜索", "查找", "search", "find", "包", "npm"],
+      "argv_template": ["npm", "search"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "query": {"type": "string", "description": "搜索关键词"},
+          "long": {"type": "boolean", "description": "显示详细信息"}
+        },
+        "required": ["query"]
+      },
+      "example": "npm search react --long"
+    },
+    {
+      "category": "info",
+      "name": "view",
+      "description": "查看 npm 包的详细信息（版本、依赖、描述等）",
+      "description_en": "View detailed info about an npm package",
+      "keywords": ["查看", "信息", "view", "info", "包", "详情"],
+      "argv_template": ["npm", "view"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "package": {"type": "string", "description": "包名"},
+          "field": {"type": "string", "description": "指定字段，如 versions, dependencies, description"}
+        },
+        "required": ["package"]
+      },
+      "example": "npm view react versions"
+    },
+    {
+      "category": "info",
+      "name": "list",
+      "description": "列出当前项目已安装的包",
+      "description_en": "List installed packages in current project",
+      "keywords": ["列表", "已安装", "list", "ls", "包", "依赖"],
+      "argv_template": ["npm", "list"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "depth": {"type": "integer", "description": "依赖树深度，0 只显示顶层"},
+          "global": {"type": "boolean", "description": "列出全局包"},
+          "json": {"type": "boolean", "description": "JSON 输出"}
+        }
+      },
+      "example": "npm list --depth 0"
+    },
+    {
+      "category": "info",
+      "name": "outdated",
+      "description": "检查过时的 npm 包",
+      "description_en": "Check for outdated packages",
+      "keywords": ["过时", "过期", "outdated", "更新", "检查"],
+      "argv_template": ["npm", "outdated"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "global": {"type": "boolean", "description": "检查全局包"},
+          "long": {"type": "boolean", "description": "显示详细信息"}
+        }
+      },
+      "example": "npm outdated --long"
+    },
+    {
+      "category": "project",
+      "name": "init",
+      "description": "初始化新的 npm 项目（创建 package.json）",
+      "description_en": "Initialize a new npm project (create package.json)",
+      "keywords": ["初始化", "创建", "init", "项目", "package.json", "新建"],
+      "argv_template": ["npm", "init"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "yes": {"type": "boolean", "description": "跳过交互使用默认值 (-y)"}
+        }
+      },
+      "example": "npm init -y",
+      "auth_required": false
+    },
+    {
+      "category": "project",
+      "name": "run",
+      "description": "运行 package.json 中定义的脚本",
+      "description_en": "Run a script defined in package.json",
+      "keywords": ["运行", "脚本", "run", "script", "执行"],
+      "argv_template": ["npm", "run"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "script": {"type": "string", "description": "脚本名，如 build, test, dev, start"}
+        },
+        "required": ["script"]
+      },
+      "example": "npm run build",
+      "auth_required": false
+    },
+    {
+      "category": "project",
+      "name": "test",
+      "description": "运行项目测试",
+      "description_en": "Run project tests",
+      "keywords": ["测试", "test", "运行"],
+      "argv_template": ["npm", "test"],
+      "example": "npm test",
+      "auth_required": false
+    },
+    {
+      "category": "publish",
+      "name": "publish",
+      "description": "发布包到 npm 注册表",
+      "description_en": "Publish a package to the npm registry",
+      "keywords": ["发布", "上传", "publish", "npm", "注册表"],
+      "argv_template": ["npm", "publish"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "access": {"type": "string", "description": "访问级别: public 或 restricted"},
+          "tag": {"type": "string", "description": "发布标签，如 latest, beta, next"},
+          "dry-run": {"type": "boolean", "description": "模拟发布，不实际上传"}
+        }
+      },
+      "example": "npm publish --access public"
+    },
+    {
+      "category": "publish",
+      "name": "pack",
+      "description": "打包项目为 tarball（不发布）",
+      "description_en": "Create a tarball from a package (without publishing)",
+      "keywords": ["打包", "pack", "tarball", "npm"],
+      "argv_template": ["npm", "pack"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "dry-run": {"type": "boolean", "description": "仅显示将打包的文件"}
+        }
+      },
+      "example": "npm pack --dry-run",
+      "auth_required": false
+    },
+    {
+      "category": "security",
+      "name": "audit",
+      "description": "检查项目依赖的安全漏洞",
+      "description_en": "Run a security audit on project dependencies",
+      "keywords": ["安全", "审计", "漏洞", "audit", "security", "vulnerability"],
+      "argv_template": ["npm", "audit"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "fix": {"type": "boolean", "description": "自动修复已知漏洞"},
+          "json": {"type": "boolean", "description": "JSON 输出"}
+        }
+      },
+      "example": "npm audit",
+      "auth_required": false
+    },
+    {
+      "category": "security",
+      "name": "audit_fix",
+      "description": "自动修复依赖安全漏洞",
+      "description_en": "Automatically fix security vulnerabilities",
+      "keywords": ["修复", "安全", "漏洞", "fix", "audit"],
+      "argv_template": ["npm", "audit", "fix"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "force": {"type": "boolean", "description": "强制修复（可能包含重大版本更新）"}
+        }
+      },
+      "example": "npm audit fix",
+      "auth_required": false
+    },
+    {
+      "category": "config",
+      "name": "config_list",
+      "description": "查看 npm 配置",
+      "description_en": "List npm configuration",
+      "keywords": ["配置", "config", "设置", "list"],
+      "argv_template": ["npm", "config", "list"],
+      "example": "npm config list",
+      "auth_required": false
+    },
+    {
+      "category": "config",
+      "name": "config_set",
+      "description": "设置 npm 配置项",
+      "description_en": "Set an npm config value",
+      "keywords": ["配置", "设置", "config", "set"],
+      "argv_template": ["npm", "config", "set"],
+      "input_schema": {
+        "type": "object",
+        "properties": {
+          "key": {"type": "string", "description": "配置键名，如 registry"},
+          "value": {"type": "string", "description": "配置值"}
+        },
+        "required": ["key", "value"]
+      },
+      "example": "npm config set registry https://registry.npmmirror.com",
+      "auth_required": false
+    }
+  ]
+}
