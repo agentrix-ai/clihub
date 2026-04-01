@@ -36,8 +36,8 @@ dependencies = [
 clihub = "cli_gateway.__main__:main"
 
 [project.urls]
-Homepage = "https://github.com/xray918/clihub"
-Repository = "https://github.com/xray918/clihub"
+Homepage = "https://github.com/agentrix-ai/clihub"
+Repository = "https://github.com/agentrix-ai/clihub"
 
 [tool.hatch.build.targets.wheel]
 packages = ["cli_gateway"]

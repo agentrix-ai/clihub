@@ -32,7 +32,7 @@ pip install clihub
 或从源码：
 
 ```bash
-git clone https://github.com/xray918/clihub.git
+git clone https://github.com/agentrix-ai/clihub.git
 cd clihub
 uv sync
 ```
