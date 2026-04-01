@@ -8,7 +8,7 @@ from pathlib import Path
 from cli_gateway.models.operation import Operation
 from cli_gateway.models.provider import Provider
 
-_SCHEMAS_DIR = Path(__file__).resolve().parent.parent.parent / "schemas"
+_SCHEMAS_DIR = Path(__file__).resolve().parent.parent / "schemas"
 
 # Built-in provider definitions (data-driven, easily extensible)
 BUILTIN_PROVIDERS: dict[str, Provider] = {

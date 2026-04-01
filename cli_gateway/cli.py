@@ -254,7 +254,7 @@ def auth(
 # ── run ──────────────────────────────────────────────────
 
 @app.command(
-    context_settings={"allow_extra_args": True, "allow_interspersed_args": False},
+    context_settings={"allow_extra_args": True, "allow_interspersed_args": True},
 )
 def run(
     ctx: typer.Context,
@@ -427,9 +427,13 @@ def doctor():
 def refresh(
     provider_name: Optional[str] = typer.Argument(None, help="Provider to refresh schema for"),
 ):
-    """Refresh tool schemas from installed CLIs."""
+    """Refresh tool schemas — reload static JSON + extract dynamic schemas from installed CLIs."""
     dispatcher = _get_dispatcher()
     registry = get_registry()
+
+    registry.load()
+    static_count = len(registry.operations)
+    console.print(f"[green]Loaded {static_count} operations from static schemas.[/]")
 
     async def _do():
         targets = [provider_name] if provider_name else list(registry.providers.keys())
@@ -439,15 +443,13 @@ def refresh(
                 continue
             installed, _ = await adapter.is_installed()
             if not installed:
-                console.print(f"[yellow]{name}: not installed, skipping.[/]")
+                console.print(f"[yellow]{name}: not installed, skipping dynamic extraction.[/]")
                 continue
-            console.print(f"[blue]Refreshing {name}...[/]")
+            console.print(f"[blue]Extracting dynamic schema for {name}...[/]")
             ops = await adapter.refresh_schema()
             if ops:
                 registry.add_operations(ops)
-                console.print(f"  [green]{len(ops)} operations loaded from {name}[/]")
-            else:
-                console.print(f"  [dim]No dynamic schema available for {name}[/]")
+                console.print(f"  [green]+{len(ops)} operations from {name} CLI[/]")
 
         console.print(f"\n[green]Total: {len(registry.operations)} operations[/]")
 
@@ -503,7 +505,7 @@ def add(
         ops = await auto_extract(provider)
 
         if ops:
-            schemas_dir = Path(__file__).resolve().parent.parent / "schemas"
+            schemas_dir = Path(__file__).resolve().parent / "schemas"
             path = save_schema(prov_name, ops, schemas_dir)
             console.print(f"  [green]{len(ops)} operations extracted → {path}[/]")
         else:

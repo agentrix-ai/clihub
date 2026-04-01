@@ -5,7 +5,7 @@ from pathlib import Path
 from cli_gateway.core.registry import Registry, BUILTIN_PROVIDERS
 
 
-SCHEMAS_DIR = Path(__file__).resolve().parent.parent / "schemas"
+SCHEMAS_DIR = Path(__file__).resolve().parent.parent / "cli_gateway" / "schemas"
 
 
 def test_builtin_providers():
