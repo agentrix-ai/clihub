@@ -17,23 +17,23 @@
 ## 特性
 
 - **语义搜索** — 中英文混合搜索 300+ 工具，基于 jieba + BM25
-- **一键安装** — `clihub install --all` 自动安装所有底层 CLI
-- **统一认证** — `clihub auth <provider>` 委托各 CLI 原生认证流程
-- **统一调用** — `clihub run <operation_id> [args]` 一条命令调用任何工具
+- **一键安装** — `cli-hub install --all` 自动安装所有底层 CLI
+- **统一认证** — `cli-hub auth <provider>` 委托各 CLI 原生认证流程
+- **统一调用** — `cli-hub run <operation_id> [args]` 一条命令调用任何工具
 - **Agent 友好** — 配套 SKILL.md，Agent 开箱即用
 - **可扩展** — 新增厂商只需添加 JSON schema + adapter
 
 ## 安装
 
 ```bash
-pip install clihub
+pip install agent-cli-hub
 ```
 
 或从源码：
 
 ```bash
-git clone https://github.com/agentrix-ai/clihub.git
-cd clihub
+git clone https://github.com/agentrix-ai/cli-hub.git
+cd cli-hub
 uv sync
 ```
 
@@ -41,39 +41,39 @@ uv sync
 
 ```bash
 # 1. 检查环境
-clihub doctor
+cli-hub doctor
 
 # 2. 安装底层 CLI（按需）
-clihub install lark
-clihub install dingtalk
-clihub install wecom
+cli-hub install lark
+cli-hub install dingtalk
+cli-hub install wecom
 
 # 3. 认证
-clihub auth lark
-clihub auth dingtalk
+cli-hub auth lark
+cli-hub auth dingtalk
 
 # 4. 搜索工具
-clihub search "发送消息给同事"
-clihub search "创建待办" --provider lark
+cli-hub search "发送消息给同事"
+cli-hub search "创建待办" --provider lark
 
 # 5. 调用
-clihub run lark.calendar.agenda
-clihub run wecom.todo.create_todo '{"content":"写周报"}'
-clihub run dingtalk.contact.user_search --keyword "悟空"
+cli-hub run lark.calendar.agenda
+cli-hub run wecom.todo.create_todo '{"content":"写周报"}'
+cli-hub run dingtalk.contact.user_search --keyword "悟空"
 ```
 
 ## 命令参考
 
 | 命令 | 说明 |
 |------|------|
-| `clihub search <query>` | 语义搜索工具（支持 `--provider`, `--category`, `--top`, `--json`） |
-| `clihub install <provider>` | 安装底层 CLI（支持 `--all`） |
-| `clihub auth <provider>` | 认证（支持 `--status`） |
-| `clihub run <operation_id> [args]` | 调用工具 |
-| `clihub list [provider]` | 列出 provider / 工具 |
-| `clihub doctor` | 诊断环境 |
-| `clihub refresh [provider]` | 从 CLI 动态刷新 schema |
-| `clihub version` | 版本信息 |
+| `cli-hub search <query>` | 语义搜索工具（支持 `--provider`, `--category`, `--top`, `--json`） |
+| `cli-hub install <provider>` | 安装底层 CLI（支持 `--all`） |
+| `cli-hub auth <provider>` | 认证（支持 `--status`） |
+| `cli-hub run <operation_id> [args]` | 调用工具 |
+| `cli-hub list [provider]` | 列出 provider / 工具 |
+| `cli-hub doctor` | 诊断环境 |
+| `cli-hub refresh [provider]` | 从 CLI 动态刷新 schema |
+| `cli-hub version` | 版本信息 |
 
 ## 支持的平台
 
@@ -96,7 +96,7 @@ clihub run dingtalk.contact.user_search --keyword "悟空"
 将 `skills/SKILL.md` 安装到 Agent 环境即可使用：
 
 ```bash
-cp skills/SKILL.md ~/.cursor/skills/clihub/SKILL.md
+cp skills/SKILL.md ~/.cursor/skills/cli-hub/SKILL.md
 ```
 
 ## License

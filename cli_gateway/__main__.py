@@ -1,4 +1,4 @@
-"""Entry point for clihub."""
+"""Entry point for cli-hub."""
 
 from cli_gateway.cli import app
 

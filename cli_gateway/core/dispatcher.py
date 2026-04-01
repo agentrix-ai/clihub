@@ -43,7 +43,7 @@ class Dispatcher:
         if not installed:
             return InvokeResult(
                 success=False,
-                error=f"CLI not installed for {op.provider}. Run: clihub install {op.provider}",
+                error=f"CLI not installed for {op.provider}. Run: cli-hub install {op.provider}",
                 exit_code=1,
             )
 

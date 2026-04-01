@@ -1,5 +1,5 @@
 ---
-name: clihub
+name: cli-hub
 description: >-
   Unified CLI gateway to search, install, authenticate, and invoke enterprise
   platform tools (WeCom, DingTalk, Lark/Feishu) covering 79+ operations.
@@ -8,15 +8,23 @@ description: >-
   meetings, approvals, or attendance across these platforms.
 ---
 
-# clihub — 企业 CLI 统一网关
+# cli-hub — 企业 CLI 统一网关
 
 一个 Skill 搜索和调用所有企业平台工具（企业微信 / 钉钉 / 飞书），覆盖 79+ 工具。
 
+## 安装
+
+```bash
+pip install agent-cli-hub
+```
+
+安装后即可直接使用 `cli-hub` 命令。如未全局安装，在项目目录下用 `uv run cli-hub` 替代。
+
 ## 强制规则
 
-1. **禁止猜命令** — 必须先 `clihub search` 找到工具 ID。
-2. **调用前查参数** — 必须先 `clihub info <id>` 确认参数 schema。
-3. **所有命令加 `uv run` 前缀**（除非用户已全局安装 clihub）。
+1. **禁止猜命令** — 必须先 `cli-hub search` 找到工具 ID。
+2. **调用前查参数** — 必须先 `cli-hub info <id>` 确认参数 schema。
+3. 出错时查阅下方「错误处理」表，按指引修复。
 
 ## 标准工作流
 
@@ -25,47 +33,47 @@ description: >-
 ### Step 1: 检查环境（首次必做）
 
 ```bash
-uv run clihub doctor
+cli-hub doctor
 ```
 
 根据输出判断：
-- 显示 `not installed` → 执行安装（见下方）
-- 显示 `installed` 但未认证 → 执行认证（见下方）
+- `not installed` → 安装对应 CLI
+- `installed` 但未认证 → 执行认证
 - 全部 OK → 跳到 Step 2
 
-**安装：**
+**安装底层 CLI：**
 
 ```bash
-uv run clihub install wecom             # 企业微信
-uv run clihub install dingtalk          # 钉钉
-uv run clihub install lark              # 飞书
-uv run clihub install --all             # 全部
-uv run clihub install lark --timeout 300  # 网络慢时加大超时（默认 180s）
+cli-hub install wecom              # 企业微信
+cli-hub install dingtalk           # 钉钉
+cli-hub install lark               # 飞书
+cli-hub install --all              # 全部
+cli-hub install lark --timeout 300 # 网络慢时加大超时（默认 180s）
 ```
 
 **认证（交互式，需用户在浏览器完成授权）：**
 
 ```bash
-uv run clihub auth wecom
-uv run clihub auth dingtalk
-uv run clihub auth lark
-uv run clihub auth --status             # 查看所有认证状态
+cli-hub auth wecom
+cli-hub auth dingtalk
+cli-hub auth lark
+cli-hub auth --status              # 查看所有认证状态
 ```
 
 ### Step 2: 搜索工具
 
 ```bash
-uv run clihub search "发送消息给同事"
-uv run clihub search "创建待办" --provider lark
-uv run clihub search "查看日程" --top 5
-uv run clihub search "会议" --json       # Agent 推荐：JSON 输出含 input_schema
+cli-hub search "发送消息给同事"
+cli-hub search "创建待办" --provider lark
+cli-hub search "查看日程" --top 5
+cli-hub search "会议" --json        # Agent 推荐：JSON 输出含 input_schema
 ```
 
 ### Step 3: 查看参数
 
 ```bash
-uv run clihub info wecom.msg.send_message          # 表格格式
-uv run clihub info wecom.msg.send_message --json   # Agent 推荐：完整 JSON Schema
+cli-hub info wecom.msg.send_message        # 表格格式
+cli-hub info wecom.msg.send_message --json # Agent 推荐：完整 JSON Schema
 ```
 
 输出包含：参数名、类型、是否必填（`*` 标记）、调用示例、底层命令模板。
@@ -75,53 +83,53 @@ uv run clihub info wecom.msg.send_message --json   # Agent 推荐：完整 JSON 
 **方式 A — JSON 参数（wecom 风格）：**
 
 ```bash
-uv run clihub run wecom.msg.send_message --args '{"chat_type":1,"chatid":"user1","msgtype":"text","text":{"content":"hello"}}'
+cli-hub run wecom.msg.send_message --args '{"chat_type":1,"chatid":"user1","msgtype":"text","text":{"content":"hello"}}'
 ```
 
 **方式 B — Flag 参数（dingtalk / lark 风格）：**
 
 ```bash
-uv run clihub run lark.im.messages_send --chat-id oc_xxx --text "Hello"
-uv run clihub run dingtalk.todo.task_create --title "写周报" --executors userId
+cli-hub run lark.im.messages_send --chat-id oc_xxx --text "Hello"
+cli-hub run dingtalk.todo.task_create --title "写周报" --executors userId
 ```
 
-**如何判断用哪种？** `clihub info <id>` 的 Example 字段会显示底层 CLI 的参数风格。
+**如何判断用哪种？** `cli-hub info <id>` 的 Example 字段会显示底层 CLI 的参数风格。
 
 ## 辅助命令
 
 | 命令 | 用途 |
 |------|------|
-| `clihub list` | 列出所有 provider |
-| `clihub list lark` | 列出飞书所有工具 |
-| `clihub list dingtalk --category todo` | 按分类过滤 |
-| `clihub refresh` | 从已安装 CLI 刷新 schema |
-| `clihub add <binary> --display "Name"` | 添加新 CLI provider |
+| `cli-hub list` | 列出所有 provider |
+| `cli-hub list lark` | 列出飞书所有工具 |
+| `cli-hub list dingtalk --category todo` | 按分类过滤 |
+| `cli-hub refresh` | 从已安装 CLI 刷新 schema |
+| `cli-hub add <binary> --display "Name"` | 添加新 CLI provider |
 
 ## 决策树
 
 ```
 用户意图
-├── 不确定用哪个平台 → clihub search "<描述>"
-├── 知道平台不知道工具 → clihub list <provider>
-├── 找到工具 ID → clihub info <id> → clihub run <id> [args]
-├── "not installed" → clihub install <provider>
-├── "not authenticated" → clihub auth <provider>
-├── "Operation not found" → clihub search 重新搜索
-├── "timed out" → clihub install <provider> --timeout 300
-└── 环境不确定 → clihub doctor
+├── 不确定用哪个平台 → cli-hub search "<描述>"
+├── 知道平台不知道工具 → cli-hub list <provider>
+├── 找到工具 ID → cli-hub info <id> → cli-hub run <id> [args]
+├── "not installed" → cli-hub install <provider>
+├── "not authenticated" → cli-hub auth <provider>
+├── "Operation not found" → cli-hub search 重新搜索
+├── "timed out" → cli-hub install <provider> --timeout 300
+└── 环境不确定 → cli-hub doctor
 ```
 
 ## 错误处理
 
 | 错误信息 | 原因 | 解决 |
 |---------|------|------|
-| `not installed` | CLI 未安装 | `clihub install <provider>` |
-| `not authenticated` | 未认证 | `clihub auth <provider>` |
-| `Operation not found` | ID 拼写错误 | `clihub search` 重新搜索 |
-| `No adapter registered` | provider 名错误 | `clihub list` 查看可用名 |
+| `not installed` | CLI 未安装 | `cli-hub install <provider>` |
+| `not authenticated` | 未认证 | `cli-hub auth <provider>` |
+| `Operation not found` | ID 拼写错误 | `cli-hub search` 重新搜索 |
+| `No adapter registered` | provider 名错误 | `cli-hub list` 查看可用名 |
 | `timed out after Ns` | 超时 | 加 `--timeout 300` 重试 |
 | `Invalid JSON` | --args JSON 格式错误 | 检查引号和转义 |
-| 底层 CLI 业务错误 | 参数不对或权限不足 | `clihub info <id>` 查参数 |
+| 底层 CLI 业务错误 | 参数不对或权限不足 | `cli-hub info <id>` 查参数 |
 
 ## 支持的平台
 

@@ -1,4 +1,4 @@
-"""Main CLI command definitions — the single entry point for clihub."""
+"""Main CLI command definitions — the single entry point for cli-hub."""
 
 from __future__ import annotations
 
@@ -18,7 +18,7 @@ from cli_gateway.core.search import search_operations
 from cli_gateway.installer.manager import InstallerManager
 
 app = typer.Typer(
-    name="clihub",
+    name="cli-hub",
     help="Unified CLI gateway for enterprise platforms — search, install, auth and invoke WeCom / DingTalk / Lark CLIs.",
     no_args_is_help=True,
 )
@@ -99,7 +99,7 @@ def search(
         table.add_row(op.id, op.description, op.example or "-", f"{score:.2f}")
 
     console.print(table)
-    console.print("\n[dim]Tip: run [bold]clihub info <ID>[/bold] to see full parameter schema.[/]")
+    console.print("\n[dim]Tip: run [bold]cli-hub info <ID>[/bold] to see full parameter schema.[/]")
 
 
 # ── info ─────────────────────────────────────────────────
@@ -115,7 +115,7 @@ def info(
 
     if op is None:
         console.print(f"[red]Operation not found: {operation_id}[/]")
-        console.print("[dim]Use [bold]clihub search <query>[/bold] to find tools.[/]")
+        console.print("[dim]Use [bold]cli-hub search <query>[/bold] to find tools.[/]")
         raise typer.Exit(1)
 
     if output_json:
@@ -154,9 +154,9 @@ def info(
 
     console.print(f"\n  [bold]Run:[/]")
     if op.provider == "wecom":
-        console.print(f'  [dim]$ clihub run {op.id} \'{{...}}\'[/]')
+        console.print(f'  [dim]$ cli-hub run {op.id} \'{{...}}\'[/]')
     else:
-        console.print(f"  [dim]$ clihub run {op.id} --param value[/]")
+        console.print(f"  [dim]$ cli-hub run {op.id} --param value[/]")
     console.print()
 
 
@@ -244,7 +244,7 @@ def auth(
         installed, _ = await installer.check_installed(prov)
         if not installed:
             console.print(f"[red]{prov.display_name} is not installed.[/]")
-            console.print(f"Run first: [bold]clihub install {provider_name}[/]")
+            console.print(f"Run first: [bold]cli-hub install {provider_name}[/]")
             raise typer.Exit(1)
         await auth_mgr.auth(prov)
 
@@ -266,8 +266,8 @@ def run(
 
     \b
     Two ways to pass arguments:
-      JSON:  clihub run wecom.msg.send_message --args '{"chat_type":1,"chatid":"user1"}'
-      Flags: clihub run lark.im.messages_send --chat-id oc_xxx --text Hello
+      JSON:  cli-hub run wecom.msg.send_message --args '{"chat_type":1,"chatid":"user1"}'
+      Flags: cli-hub run lark.im.messages_send --chat-id oc_xxx --text Hello
     """
     parsed_args: dict | None = None
 
@@ -416,7 +416,7 @@ def doctor():
         if all_ok:
             console.print("\n[bold green]All providers OK.[/]")
         else:
-            console.print("\n[yellow]Some providers are missing. Run: clihub install --all[/]")
+            console.print("\n[yellow]Some providers are missing. Run: cli-hub install --all[/]")
 
     _run(_do())
 
@@ -470,8 +470,8 @@ def add(
 
     \b
     Examples:
-      clihub add meitu-cli --display "MeiTu (美图)" --install-cmd "npm i -g @meitu/cli"
-      clihub add gaode --schema-cmd "gaode schema" --style flags
+      cli-hub add meitu-cli --display "MeiTu (美图)" --install-cmd "npm i -g @meitu/cli"
+      cli-hub add gaode --schema-cmd "gaode schema" --style flags
     """
     from pathlib import Path
     from cli_gateway.core.schema_extractor import auto_extract, save_schema
@@ -517,7 +517,7 @@ def add(
         console.print(f"  [dim]Binary:  {binary}[/]")
         console.print(f"  [dim]Tools:   {len(ops)}[/]")
         console.print(f"  [dim]Style:   {invoke_style}[/]")
-        console.print(f"\n[dim]Try: clihub list {prov_name}[/]")
+        console.print(f"\n[dim]Try: cli-hub list {prov_name}[/]")
 
     _run(_do())
 
@@ -526,5 +526,5 @@ def add(
 
 @app.command()
 def version():
-    """Show clihub version."""
-    console.print(f"clihub v{__version__}")
+    """Show cli-hub version."""
+    console.print(f"cli-hub v{__version__}")

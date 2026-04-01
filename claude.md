@@ -2,7 +2,7 @@
 
 ## 项目定位
 
-**clihub** 是一个统一的企业 CLI 网关工具，Agent 只装一个 Skill 就能搜索、安装、认证、调用 WeCom / DingTalk / Lark 等多家大厂的 CLI 工具。
+**cli-hub** 是一个统一的企业 CLI 网关工具，Agent 只装一个 Skill 就能搜索、安装、认证、调用 WeCom / DingTalk / Lark 等多家大厂的 CLI 工具。
 
 ## 技术栈
 
@@ -16,7 +16,7 @@
 ## 架构
 
 ```
-Agent → SKILL.md → clihub CLI → Dispatcher → Adapter(wecom/dingtalk/lark) → subprocess → 底层 CLI
+Agent → SKILL.md → cli-hub CLI → Dispatcher → Adapter(wecom/dingtalk/lark) → subprocess → 底层 CLI
 ```
 
 核心概念:
@@ -41,7 +41,7 @@ Agent → SKILL.md → clihub CLI → Dispatcher → Adapter(wecom/dingtalk/lark
 
 **自动方式（推荐）**:
 ```bash
-clihub add <binary> --display "Name" --install-cmd "..." --schema-cmd "..."
+cli-hub add <binary> --display "Name" --install-cmd "..." --schema-cmd "..."
 ```
 自动从 `schema` 命令或 `--help` 抽取工具列表，生成 `schemas/<name>.json`，用 GenericAdapter 调用。
 
@@ -54,9 +54,9 @@ clihub add <binary> --display "Name" --install-cmd "..." --schema-cmd "..."
 
 ```bash
 uv sync
-uv run clihub --help
-uv run clihub search "发消息"
-uv run clihub doctor
+uv run cli-hub --help
+uv run cli-hub search "发消息"
+uv run cli-hub doctor
 ```
 
 ## 测试
