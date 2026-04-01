@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "agent-cli-hub"
-version = "0.3.0"
+version = "0.3.1"
 description = "Unified CLI gateway for enterprise & developer platforms — one Skill to search, install, auth and invoke 8 platforms, 159+ tools"
 readme = "README.md"
 license = { text = "MIT" }
