@@ -15,10 +15,18 @@ description: >-
 ## 安装
 
 ```bash
-pip install agent-cli-hub
+curl -sSL https://raw.githubusercontent.com/agentrix-ai/clihub/main/install.sh | bash
 ```
 
-安装后即可直接使用 `cli-hub` 命令。如未全局安装，在项目目录下用 `uv run cli-hub` 替代。
+或手动安装（需要 Python ≥ 3.10）：
+
+```bash
+pip install agent-cli-hub    # pip
+pipx install agent-cli-hub   # pipx（推荐）
+uv tool install agent-cli-hub # uv
+```
+
+安装后即可直接使用 `cli-hub` 命令。
 
 ## 强制规则
 

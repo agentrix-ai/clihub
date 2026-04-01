@@ -25,15 +25,27 @@
 
 ## 安装
 
+**一键安装（推荐）：**
+
 ```bash
-pip install agent-cli-hub
+curl -sSL https://raw.githubusercontent.com/agentrix-ai/clihub/main/install.sh | bash
 ```
 
-或从源码：
+自动检测环境，选择最优方式安装（uv > pipx > pip），没有 Python 也会尝试自动安装。
+
+**手动安装：**
 
 ```bash
-git clone https://github.com/agentrix-ai/cli-hub.git
-cd cli-hub
+pip install agent-cli-hub     # pip
+pipx install agent-cli-hub    # pipx
+uv tool install agent-cli-hub # uv
+```
+
+**从源码：**
+
+```bash
+git clone https://github.com/agentrix-ai/clihub.git
+cd clihub
 uv sync
 ```
 
